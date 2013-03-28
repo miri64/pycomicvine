@@ -154,3 +154,22 @@ class _ListResource(_Resource):
     def __iter__(self):
         for index in xrange(self._total):
             yield self[index]
+
+class Types(_ListResource):
+    def __new__(type):
+        if not '_instance' in type.__dict__:
+            type._instance = object.__new__(type)
+        return type._instance
+
+    def __init__(self):
+        super(Types, self).__init__()
+        self._mapping = {}
+        for type in self:
+            self._mapping[type['detail_resource_name']] = type
+            self._mapping[type['list_resource_name']] = type
+
+    def __getitem__(self, key):
+        if type(key) in [int, long, slice]:
+            return super(Types, self).__getitem__(key)
+        return self._mapping[key]
+
