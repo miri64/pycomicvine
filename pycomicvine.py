@@ -155,6 +155,14 @@ class _ListResource(_Resource):
         for index in xrange(self._total):
             yield self[index]
 
+class Search(_ListResource):
+    def __init__(self, resources, query, **kwargs):
+        super(Search, self).__init__(
+                resources=resources,
+                query=query,
+                **kwargs
+            )
+
 class Types(_ListResource):
     def __new__(type):
         if not '_instance' in type.__dict__:
@@ -162,11 +170,13 @@ class Types(_ListResource):
         return type._instance
 
     def __init__(self):
-        super(Types, self).__init__()
-        self._mapping = {}
-        for type in self:
-            self._mapping[type['detail_resource_name']] = type
-            self._mapping[type['list_resource_name']] = type
+        if not '_ready' in dir(self):
+            super(Types, self).__init__()
+            self._mapping = {}
+            for type in self:
+                self._mapping[type['detail_resource_name']] = type
+                self._mapping[type['list_resource_name']] = type
+            self._ready = True
 
     def __getitem__(self, key):
         if type(key) in [int, long, slice]:
