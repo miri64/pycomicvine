@@ -109,6 +109,63 @@ class _Resource(object):
                 )
         return response
 
+class _SingularResource(_Resource):
+    def __new__(type, id, **kwargs):
+        resource_type = kwargs.get(
+                'resource_type',
+                type.__name__.lower()
+            )
+        try:
+            type_id = Types()[resource_type]['id']
+        except KeyError:
+            return InvalidResourceError(resource_type)
+        type._ensure_resource_url()
+        key = "{0:d}-{1:d}".format(type_id, id)
+        obj = _cached_resources.get(key)
+        if obj == None:
+            obj = object.__new__(type, id, **kwargs)
+            _cached_resources[key] = obj
+        return obj
+
+    def __init__(self, id, **kwargs):
+        if '_ready' not in self.__dict__:
+            self._ready = True
+            resource_type = type(self).__name__.lower()
+            try:
+                type_id = Types()[resource_type]['id']
+            except KeyError:
+                raise InvalidResourceError(
+                        "Resource type '{0!s}' does not exist.".format(
+                                resource_type
+                            )
+                    )
+            if 'api_detail_url' in kwargs:
+                self._detail_url = kwargs['api_detail_url']
+            else:
+                self._detail_url = type(self)._resource_url + \
+                        "{0:d}-{1:d}/".format(type_id, id)
+            self._fields = kwargs
+            self._downloaded = False
+
+    def _request_object(self):
+        return type(self)._request(self._detail_url)
+
+    def __getattribute__(self, name):
+        try:
+            if name not in ['__dict__'] and name not in self.__dict__:
+                if name in object.__getattribute__(self, '_fields'):
+                    return object.__getattribute__(self, '_fields')[name]
+                elif not object.__getattribute__(self, '_downloaded'):
+                    self._fields.update(object.__getattribute__(
+                            self,
+                            '_request_object'
+                        )().results)
+                    self._downloaded = True
+                    return object.__getattribute__(self, '_fields')[name]
+        except KeyError:
+            pass
+        return object.__getattribute__(self, name)
+
 class _ListResource(_Resource):
     def _request_object(self, **params):
         type(self)._ensure_resource_url()
@@ -149,11 +206,39 @@ class _ListResource(_Resource):
                         **self._args
                     )
                 self._results[i:self._limit+i] = response.results
+        if type(self._results[index]) == list:
+            for i in range(start, stop, step):
+                if type(self._results[i]) == dict:
+                    self._parse_result(i)
+        elif type(self._results[index]) == dict:
+            self._parse_result(index)
         return self._results[index]
 
     def __iter__(self):
         for index in xrange(self._total):
             yield self[index]
+
+    def __str__(self):
+        string = "["
+        for element in self[:100]:
+            string += str(element)+","
+        string = string[:-1]+"]"
+        return string
+
+    def _parse_result(self, index):
+        if type(self) != Types:
+            type_dict = Types()
+            if type(self) == Search:
+                self._results[index] = type_dict.singular_resource_class(
+                        self._results[index]['resource_type']
+                    )(**self._results[index])
+            else:
+                resource_type = type(self).__name__.lower()
+                self._results[index] = type_dict.singular_resource_class(
+                        resource_type
+                    )(**self._results[index])
+
+
 
 class Search(_ListResource):
     def __init__(self, resources, query, **kwargs):
@@ -183,3 +268,10 @@ class Types(_ListResource):
             return super(Types, self).__getitem__(key)
         return self._mapping[key]
 
+    def singular_resource_class(self, key):
+        key = key.lower()
+        if key not in self._mapping:
+            raise InvalidResourceError(key)
+        classname = self._mapping[key]['detail_resource_name']
+        classname = classname[0].upper() + classname[1:].lower()
+        return getattr(sys.modules[__name__], classname)
