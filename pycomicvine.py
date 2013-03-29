@@ -194,16 +194,26 @@ class _ListResource(_Resource):
         type(self)._ensure_resource_url()
         return type(self)._request(type(self)._resource_url, **params)
 
-    def __init__(self, **kwargs):
-        response = self._request_object(**kwargs)
-        self._results = response.offset*[None] + response.results
-        self._total = response.number_of_total_results
-        self._limit = response.limit
-        if 'limit' in kwargs:
-            del kwargs['limit']
-        if 'offset' in kwargs:
-            del kwargs['offset']
-        self._args = kwargs
+    def __init__(self, init_list = None, **kwargs):
+        if init_list != None:
+            if len(kwargs) > 0:
+                raise TypeError(
+                        "If 'init_list' is given it is the only "+
+                        "allowed argument"
+                    )
+            self._results = init_list
+            self._total = len(init_list)
+            self._limit = len(init_list)
+        else:
+            response = self._request_object(**kwargs)
+            self._results = response.offset*[None] + response.results
+            self._total = response.number_of_total_results
+            self._limit = response.limit
+            if 'limit' in kwargs:
+                del kwargs['limit']
+            if 'offset' in kwargs:
+                del kwargs['offset']
+            self._args = kwargs
 
     def __len__(self):
         return self._total
@@ -262,7 +272,7 @@ class _ListResource(_Resource):
                     )(**self._results[index])
 
 class _SortableListResource(_ListResource):
-    def __init__(self, sort = None, **kwargs):
+    def __init__(self, init_list = [], sort = None, **kwargs):
         if sort != None:
             if isinstance(sort, (str, unicode)):
                 if ':' not in sort:
@@ -280,7 +290,7 @@ class _SortableListResource(_ListResource):
                     else:
                         sort = sort['field']+":asc"
             kwargs['sort'] = sort
-        super(_SortableListResource, self).__init__(**kwargs)
+        super(_SortableListResource, self).__init__(init_list, **kwargs)
 
 
 class Search(_ListResource):
