@@ -56,8 +56,8 @@ class _Resource(object):
                 number_of_page_results,
                 number_of_total_results,
                 status_code,
-                version,
-                results
+                results,
+                version = None
             ):
             self.error = error
             self.limit = limit
