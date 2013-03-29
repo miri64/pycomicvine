@@ -86,7 +86,7 @@ class _Resource(object):
                         "Invalid API Key"
                     )
             params['api_key'] = api_key
-        if 'field_list' in params:
+        if 'field_list' in params and params['field_list'] != None:
             if not isinstance(params['field_list'], (str, unicode)):
                 field_list = ""
                 try:
@@ -148,24 +148,38 @@ class _SingularResource(_Resource):
                 self._detail_url = type(self)._resource_url + \
                         "{0:d}-{1:d}/".format(type_id, id)
             self._fields = {'id': id}
-            self._downloaded = False
+            if 'field_list' in kwargs:
+                self._fields.update(self._request_object(
+                        kwargs['field_list']
+                    ).results)
+                del kwargs['field_list']
             self._fields.update(kwargs)
+        elif 'field_list' in kwargs:
+            self._fields.update(self._request_object(
+                    kwargs['field_list']
+                ).results)
 
-    def _request_object(self):
-        return type(self)._request(self._detail_url)
+
+    def _request_object(self, field_list = None):
+        return type(self)._request(
+                self._detail_url,
+                field_list=field_list
+            )
 
     def __getattribute__(self, name):
         def _object_attribute(name):
             return object.__getattribute__(self, name)
         try:
-            if name not in ['__dict__'] and name not in self.__dict__:
+            if name not in ['__dict__', '_request_object'] and \
+                    name not in self.__dict__:
                 if name in _object_attribute('_fields'):
                     return _object_attribute('_fields')[name]
-                elif not _object_attribute('_downloaded'):
+                else:
                     self._fields.update(
-                            _object_attribute('_request_object')().results
+                            _object_attribute('_request_object')(
+                                    [name]
+                                ).results
                         )
-                    self._downloaded = True
                     return _object_attribute('_fields')[name]
         except KeyError:
             pass
