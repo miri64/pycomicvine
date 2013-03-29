@@ -188,13 +188,20 @@ class _SingularResource(_Resource):
         return _object_attribute(name)
 
     def __str__(self):
+        return str(unicode(self))
+
+    def __unicode__(self):
         if 'name' in self._fields:
-            return str(self.name)+" ["+str(self.id)+"]"
+            return unicode(self.name.encode(
+                    'ascii',
+                    'backslashreplace'
+                )) + u" ["+unicode(self.id)+u"]"
         else:
-            return "["+str(self.id)+"]"
+            return u"["+unicode(self.id)+u"]"
 
     def __repr__(self):
-        return "<"+type(self).__name__+": '"+str(self)+"'>"
+        return u"<"+unicode(type(self).__name__)+u": '"+unicode(self)\
+                +u"'>"
 
 class _ListResource(_Resource):
     def _request_object(self, **params):
@@ -259,21 +266,24 @@ class _ListResource(_Resource):
             yield self[index]
 
     def __str__(self):
+        return str(unicode(self))
+
+    def __unicode__(self):
         if len(self) == 0:
-            return "[]"
-        string = "["
+            return u"[]"
+        string = u"["
         for element in self:
-            string += str(element)+", "
-        string = string[:-2]+"]"
+            string += unicode(element)+u", "
+        string = string[:-2]+u"]"
         return string
 
     def __repr__(self):
         if len(self) == 0:
-            return type(self).__name__+"[]"
-        string = type(self).__name__+"["
+            return unicode(type(self).__name__)+u"[]"
+        string = unicode(type(self).__name__)+u"["
         for element in self:
-            string += repr(element)+","
-        string = string[:-1]+"]"
+            string += repr(element)+u","
+        string = string[:-1]+u"]"
         return string
 
     def _parse_result(self, index):
