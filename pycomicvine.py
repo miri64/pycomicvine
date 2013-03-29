@@ -1,7 +1,7 @@
 import urllib2
 from urllib import urlencode
 import simplejson as json
-import sys
+import sys, re
 
 _API_URL = "https://www.comicvine.com/api/"
 
@@ -31,6 +31,9 @@ class SubscriberOnlyError(Exception):
     pass
 
 class UnknownStatusError(Exception):
+    pass
+
+class IllegalArquementException(Exception):
     pass
 
 _EXCEPTIONS = {
