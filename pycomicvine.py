@@ -310,6 +310,77 @@ class _SortableListResource(_ListResource):
             kwargs['sort'] = sort
         super(_SortableListResource, self).__init__(init_list, **kwargs)
 
+class Character(_SingularResource):
+    pass
+
+class Characters(_SortableListResource):
+    pass
+
+class Chat(_SingularResource):
+    pass
+
+class Chats(_SortableListResource):
+    pass
+
+class Concept(_SingularResource):
+    pass
+
+class Concepts(_SortableListResource):
+    pass
+
+class Issue(_SingularResource):
+    pass
+
+class Issues(_SortableListResource):
+    pass
+
+class Location(_SingularResource):
+    pass
+
+class Locations(_SortableListResource):
+    pass
+
+class Movie(_SingularResource):
+    pass
+
+class Movies(_SortableListResource):
+    pass
+
+class Object(_SingularResource):
+    pass
+
+class Objects(_SortableListResource):
+    pass
+
+class Origin(_SingularResource):
+    pass
+
+class Origins(_SortableListResource):
+    pass
+
+class Person(_SingularResource):
+    pass
+
+class People(_SortableListResource):
+    pass
+
+class Power(_SingularResource):
+    pass
+
+class Powers(_SortableListResource):
+    pass
+
+class Promo(_SingularResource):
+    pass
+
+class Promos(_SortableListResource):
+    pass
+
+class Publisher(_SingularResource):
+    pass
+
+class Publishers(_SortableListResource):
+    pass
 
 class Search(_ListResource):
     def __init__(self, resources, query, **kwargs):
@@ -318,6 +389,18 @@ class Search(_ListResource):
                 query=query,
                 **kwargs
             )
+
+class StoryArc(_SingularResource):
+    pass
+
+class StoryArcs(_SortableListResource):
+    pass
+
+class Team(_SingularResource):
+    pass
+
+class Teams(_SortableListResource):
+    pass
 
 class Types(_ListResource):
     def __new__(type):
@@ -366,3 +449,21 @@ class Types(_ListResource):
             else:
                 camel_string += c
         return camel_string
+
+class Video(_SingularResource):
+    pass
+
+class Videos(_SortableListResource):
+    pass
+
+class VideoType(_SingularResource):
+    pass
+
+class VideoTypes(_SortableListResource):
+    pass
+
+class Volume(_SingularResource):
+    pass
+
+class Volumes(_SortableListResource):
+    pass
