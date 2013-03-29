@@ -75,7 +75,7 @@ class _Resource(object):
     @classmethod
     def _ensure_resource_url(type):
         if not '_resource_url' in type.__dict__:
-            resource_type = type.__name__.lower()
+            resource_type = Types.snakify_type_name(type)
             type._resource_url = _API_URL + resource_type + "/"
 
     @classmethod
@@ -87,7 +87,7 @@ class _Resource(object):
                     )
             params['api_key'] = api_key
         if 'field_list' in params and params['field_list'] != None:
-            if not isinstance(params['field_list'], (str, unicode)):
+            if not isinstance(params['field_list'], basestring):
                 field_list = ""
                 try:
                     for field_name in params['field_list']:
@@ -120,7 +120,7 @@ class _SingularResource(_Resource):
     def __new__(type, id, **kwargs):
         resource_type = kwargs.get(
                 'resource_type',
-                type.__name__.lower()
+                type
             )
         try:
             type_id = Types()[resource_type]['id']
@@ -137,9 +137,8 @@ class _SingularResource(_Resource):
     def __init__(self, id, **kwargs):
         if '_ready' not in self.__dict__:
             self._ready = True
-            resource_type = type(self).__name__.lower()
             try:
-                type_id = Types()[resource_type]['id']
+                type_id = Types()[type(self)]['id']
             except KeyError:
                 raise InvalidResourceError(
                         "Resource type '{0!s}' does not exist.".format(
@@ -282,19 +281,18 @@ class _ListResource(_Resource):
         if type(self) != Types:
             type_dict = Types()
             if type(self) == Search:
-                self._results[index] = type_dict.singular_resource_class(
+                self._results[index] = type_dict[
                         self._results[index]['resource_type']
-                    )(**self._results[index])
+                    ]['singular_resource_class'](**self._results[index])
             else:
-                resource_type = type(self).__name__.lower()
-                self._results[index] = type_dict.singular_resource_class(
-                        resource_type
-                    )(**self._results[index])
+                self._results[index] = type_dict[type(self)][
+                        'singular_resource_class'
+                    ](**self._results[index])
 
 class _SortableListResource(_ListResource):
     def __init__(self, init_list = [], sort = None, **kwargs):
         if sort != None:
-            if isinstance(sort, (str, unicode)):
+            if isinstance(sort, basestring):
                 if ':' not in sort:
                     sort += ":asc"
             else:
@@ -332,19 +330,39 @@ class Types(_ListResource):
             super(Types, self).__init__()
             self._mapping = {}
             for type in self:
+                type['singular_resource_class'] = getattr(
+                        sys.modules[__name__],
+                        Types._camilify_type_name(
+                                type['detail_resource_name']
+                            )
+                    )
                 self._mapping[type['detail_resource_name']] = type
                 self._mapping[type['list_resource_name']] = type
             self._ready = True
 
     def __getitem__(self, key):
-        if type(key) in [int, long, slice]:
+        if isinstance(key, (int, long, slice)):
             return super(Types, self).__getitem__(key)
+        if isinstance(key, type):
+            return self._mapping[self.snakify_type_name(key)]
         return self._mapping[key]
 
-    def singular_resource_class(self, key):
-        key = key.lower()
-        if key not in self._mapping:
-            raise InvalidResourceError(key)
-        classname = self._mapping[key]['detail_resource_name']
-        classname = classname[0].upper() + classname[1:].lower()
-        return getattr(sys.modules[__name__], classname)
+    @staticmethod
+    def snakify_type_name(type):
+        return re.sub(r'([A-Z]+)',r"_\1", type.__name__)[1:].lower()
+
+    @staticmethod
+    def _camilify_type_name(string):
+        string = string[0].upper() + string[1:].lower()
+        camel_string = ""
+        next_upper = False
+        for c in string:
+            if c == "_":
+                next_upper = True
+                continue
+            if next_upper:
+                camel_string += c.upper()
+                next_upper = False
+            else:
+                camel_string += c
+        return camel_string
