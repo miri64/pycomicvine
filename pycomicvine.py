@@ -147,11 +147,8 @@ class _SingularResource(_Resource):
                                 resource_type
                             )
                     )
-            if 'api_detail_url' in kwargs:
-                self._detail_url = kwargs['api_detail_url']
-            else:
-                self._detail_url = type(self)._resource_url + \
-                        "{0:d}-{1:d}/".format(type_id, id)
+            self._detail_url = type(self)._resource_url + \
+                    "{0:d}-{1:d}/".format(type_id, id)
             self._fields = {'id': id}
             if 'field_list' in kwargs:
                 self._fields.update(self._request_object(
