@@ -110,6 +110,10 @@ class _Resource(object):
             raise _EXCEPTIONS.get(response.status_code,UnknownStatusError)(
                     response.error
                 )
+        if 'aliases' in response.results:
+            response.results['aliases'] = response.results[
+                    'aliases'
+                ].split('\n')
         return response
 
 class _SingularResource(_Resource):
