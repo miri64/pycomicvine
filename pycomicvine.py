@@ -2,6 +2,7 @@ import urllib2
 from urllib import urlencode
 import simplejson as json
 import sys, re
+import dateutil.parser
 
 _API_URL = "https://www.comicvine.com/api/"
 
@@ -290,7 +291,7 @@ class _ListResource(_Resource):
                     ](**self._results[index])
 
 class _SortableListResource(_ListResource):
-    def __init__(self, init_list = [], sort = None, **kwargs):
+    def __init__(self, init_list = None, sort = None, **kwargs):
         if sort != None:
             if isinstance(sort, basestring):
                 if ':' not in sort:
