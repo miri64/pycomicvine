@@ -241,6 +241,26 @@ class _ListResource(_Resource):
                         resource_type
                     )(**self._results[index])
 
+class _SortableListResource(_ListResource):
+    def __init__(self, sort = None, **kwargs):
+        if sort != None:
+            if isinstance(sort, (str, unicode)):
+                if ':' not in sort:
+                    sort += ":asc"
+            else:
+                try:
+                    sort = str(sort[0])+":"+str(sort[1])
+                except KeyError:
+                    if 'field' not in sort:
+                        raise IllegalArquementException(
+                                "Argument 'sort' must contain item 'field'"
+                            )
+                    if 'direction' in sort:
+                        sort = sort['field']+":"+str(sort['direction'])
+                    else:
+                        sort = sort['field']+":asc"
+            kwargs['sort'] = sort
+        super(_SortableListResource, self).__init__(**kwargs)
 
 
 class Search(_ListResource):
