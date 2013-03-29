@@ -147,8 +147,9 @@ class _SingularResource(_Resource):
             else:
                 self._detail_url = type(self)._resource_url + \
                         "{0:d}-{1:d}/".format(type_id, id)
-            self._fields = kwargs
+            self._fields = {'id': id}
             self._downloaded = False
+            self._fields.update(kwargs)
 
     def _request_object(self):
         return type(self)._request(self._detail_url)
