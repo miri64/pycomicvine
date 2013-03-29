@@ -227,9 +227,9 @@ class _ListResource(_Resource):
             start = index
             stop = index+1
             step = 1
-        if start < 0 or start >= self._total or stop < 0 or \
+        if start < 0 or start >= self._total or \
                 stop > self._total:
-            raise IndexError['Index out of range']
+            raise IndexError('Index out of range')
         if len(self._results) < stop or \
                 None in self._results[start:stop:step]:
             for i in range(start, stop, 100):
@@ -253,7 +253,7 @@ class _ListResource(_Resource):
 
     def __str__(self):
         string = "["
-        for element in self[:100]:
+        for element in self:
             string += str(element)+","
         string = string[:-1]+"]"
         return string
