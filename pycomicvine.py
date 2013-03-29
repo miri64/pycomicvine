@@ -154,20 +154,21 @@ class _SingularResource(_Resource):
         return type(self)._request(self._detail_url)
 
     def __getattribute__(self, name):
+        def _object_attribute(name):
+            return object.__getattribute__(self, name)
         try:
             if name not in ['__dict__'] and name not in self.__dict__:
-                if name in object.__getattribute__(self, '_fields'):
-                    return object.__getattribute__(self, '_fields')[name]
-                elif not object.__getattribute__(self, '_downloaded'):
-                    self._fields.update(object.__getattribute__(
-                            self,
-                            '_request_object'
-                        )().results)
+                if name in _object_attribute('_fields'):
+                    return _object_attribute('_fields')[name]
+                elif not _object_attribute('_downloaded'):
+                    self._fields.update(
+                            _object_attribute('_request_object')().results
+                        )
                     self._downloaded = True
-                    return object.__getattribute__(self, '_fields')[name]
+                    return _object_attribute('_fields')[name]
         except KeyError:
             pass
-        return object.__getattribute__(self, name)
+        return _object_attribute(name)
 
 class _ListResource(_Resource):
     def _request_object(self, **params):
