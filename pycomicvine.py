@@ -311,7 +311,101 @@ class _SortableListResource(_ListResource):
         super(_SortableListResource, self).__init__(init_list, **kwargs)
 
 class Character(_SingularResource):
-    pass
+    def __getattribute__(self, name):
+        value = super(Character, self).__getattribute__(name)
+        if name == 'birth':
+            if isinstance(value, basestring):
+                try:
+                    self._fields[name] = dateutil.parser.parse(value)
+                except ValueError:
+                    pass
+            return self._fields[name]
+        elif name == 'character_enemies':
+            if isinstance(value, list):
+                self._fields[name] = Characters(value)
+            return self._fields[name]
+        elif name == 'character_friends':
+            if isinstance(value, list):
+                self._fields[name] = Characters(value)
+            return self._fields[name]
+        elif name == 'creators':
+            if isinstance(value, list):
+                self._fields[name] = People(value)
+            return self._fields[name]
+        elif name == 'date_added':
+            if isinstance(value, basestring):
+                try:
+                    self._fields[name] = dateutil.parser.parse(value)
+                except ValueError:
+                    pass
+            return self._fields[name]
+        elif name == 'date_last_updated':
+            if isinstance(value, basestring):
+                try:
+                    self._fields[name] = dateutil.parser.parse(value)
+                except ValueError:
+                    pass
+            return self._fields[name]
+        elif name == 'first_appeared_in_issue':
+            if isinstance(value, dict):
+                self._fields[name] = Issue(**value)
+            return self._fields[name]
+        elif name == 'gender':
+            if isinstance(value, int):
+                self._fields[name] = \
+                        u'\u2642' if value == 1 else \
+                        u'\u2640' if value == 2 else u'\u26a7'
+            return self._fields[name]
+        elif name == 'issue_credits':
+            if isinstance(value, list):
+                self._fields[name] = Issues(value)
+            return self._fields[name]
+        elif name == 'issues_died_in':
+            if isinstance(value, list):
+                    self._fields[name] = Issues(value)
+            return self._fields[name]
+        elif name == 'movies':
+            if isinstance(value, list):
+                    self._fields[name] = Movies(value)
+            return self._fields[name]
+        elif name == 'origin':
+            if isinstance(value, dict):
+                self._fields[name] = Origin(**value)
+            elif isinstance(value, list):
+                self._fields[name] = Origins(value)
+            return self._fields[name]
+        elif name == 'powers':
+            if isinstance(value, list):
+                    self._fields[name] = Powers(value)
+            return self._fields[name]
+        elif name == 'publisher':
+            if isinstance(value, dict):
+                self._fields[name] = Publisher(**value)
+            elif isinstance(value, list):
+                self._fields[name] = Publishers(value)
+            return self._fields[name]
+        elif name == 'story_arc_credits':
+            if isinstance(value, list):
+                self._fields[name] = StoryArcs(value)
+            return self._fields[name]
+        elif name == 'team_enemies':
+            if isinstance(value, list):
+                self._fields[name] = Teams(value)
+            return self._fields[name]
+        elif name == 'team_friends':
+            if isinstance(value, list):
+                self._fields[name] = Teams(value)
+            return self._fields[name]
+        elif name == 'teams':
+            if isinstance(value, list):
+                self._fields[name] = Teams(value)
+            return self._fields[name]
+        elif name == 'volume_credits':
+            if isinstance(value, list):
+                self._fields[name] = Volumes(value)
+            return self._fields[name]
+        else:
+            return value
 
 class Characters(_SortableListResource):
     pass
