@@ -189,6 +189,15 @@ class _SingularResource(_Resource):
             pass
         return _object_attribute(name)
 
+    def __str__(self):
+        if 'name' in self._fields:
+            return str(self.name)+" ["+str(self.id)+"]"
+        else:
+            return "["+str(self.id)+"]"
+
+    def __repr__(self):
+        return "<"+type(self).__name__+": '"+str(self)+"'>"
+
 class _ListResource(_Resource):
     def _request_object(self, **params):
         type(self)._ensure_resource_url()
@@ -252,9 +261,20 @@ class _ListResource(_Resource):
             yield self[index]
 
     def __str__(self):
+        if len(self) == 0:
+            return "[]"
         string = "["
         for element in self:
-            string += str(element)+","
+            string += str(element)+", "
+        string = string[:-2]+"]"
+        return string
+
+    def __repr__(self):
+        if len(self) == 0:
+            return type(self).__name__+"[]"
+        string = type(self).__name__+"["
+        for element in self:
+            string += repr(element)+","
         string = string[:-1]+"]"
         return string
 
