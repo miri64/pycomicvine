@@ -657,7 +657,12 @@ class Objects(_SortableListResource):
     pass
 
 class Origin(_SingularResource):
-    pass
+    api_detail_url = AttributeDefinition('keep')
+    character_set = AttributeDefinition('keep')
+    id = AttributeDefinition('keep')
+    name = AttributeDefinition('keep')
+    profiles = AttributeDefinition('keep')
+    site_detail_url = AttributeDefinition('keep')
 
 class Origins(_SortableListResource):
     pass
