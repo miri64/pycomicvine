@@ -870,7 +870,18 @@ class Types(_ListResource):
         return camel_string
 
 class Video(_SingularResource):
-    pass
+    api_detail_url = AttributeDefinition('keep')
+    deck = AttributeDefinition('keep')
+    high_url = AttributeDefinition('keep')
+    id = AttributeDefinition('keep')
+    image = AttributeDefinition('keep')
+    length_seconds = AttributeDefinition('keep')
+    low_url = AttributeDefinition('keep')
+    name = AttributeDefinition('keep')
+    publish_date = AttributeDefinition(datetime.datetime)
+    site_detail_url = AttributeDefinition('keep')
+    url = AttributeDefinition('keep')
+    user = AttributeDefinition('keep')
 
 class Videos(_SortableListResource):
     pass
