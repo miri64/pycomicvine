@@ -472,7 +472,24 @@ class Concepts(_SortableListResource):
     pass
 
 class Issue(_SingularResource):
-    pass
+    def __unicode__(self):
+        string = u""
+        if 'name' in self._fields:
+            string += unicode(self.name.encode(
+                        'ascii',
+                        'backslashreplace'
+                    ))+u" "
+            if 'issue_number' in self._fields:
+                string += u"#"+unicode(self.issue_number)+u" "
+        else:
+            if 'issue_number' in self._fields:
+                string += u"#"+unicode(self.issue_number)+u" "
+            if 'volume' in self._fields:
+                string = unicode(self.volume.name.encode(
+                        'ascii',
+                        'backslashreplace'
+                    ))+u" "+string
+        return string + u"["+unicode(self.id)+u"]"
 
 class Issues(_SortableListResource):
     pass
