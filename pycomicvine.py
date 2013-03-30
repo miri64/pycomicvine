@@ -720,7 +720,13 @@ class Powers(_SortableListResource):
     pass
 
 class Promo(_SingularResource):
-    pass
+    api_detail_url = AttributeDefinition('keep')
+    date_added = AttributeDefinition(datetime.datetime)
+    deck = AttributeDefinition('keep')
+    id = AttributeDefinition('keep')
+    image = AttributeDefinition('keep')
+    link = AttributeDefinition('keep')
+    name = AttributeDefinition('keep')
 
 class Promos(_SortableListResource):
     pass
