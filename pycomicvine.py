@@ -65,7 +65,10 @@ class _Resource(object):
             self.number_of_page_results = number_of_page_results
             self.number_of_total_results = number_of_total_results
             self.status_code = status_code
-            self.results = results
+            if results != None:
+                self.results = results
+            else:
+                self.results = []
 
     def __init__(self, *args, **kwargs):
         raise NotImplemented()
