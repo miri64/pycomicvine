@@ -887,7 +887,11 @@ class Videos(_SortableListResource):
     pass
 
 class VideoType(_SingularResource):
-    pass
+    api_detail_url = AttributeDefinition('keep')
+    deck = AttributeDefinition('keep')
+    id = AttributeDefinition('keep')
+    name = AttributeDefinition('keep')
+    site_detail_url = AttributeDefinition('keep')
 
 class VideoTypes(_SortableListResource):
     pass
