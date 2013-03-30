@@ -625,7 +625,51 @@ class Issues(_SortableListResource):
     pass
 
 class Location(_SingularResource):
-    pass
+    def __getattribute__(self, name):
+        value = super(Location, self).__getattribute__(name)
+        if name == 'date_added':
+            if isinstance(value, basestring):
+                try:
+                    self._fields[name] = dateutil.parser.parse(value)
+                except ValueError:
+                    pass
+            return self._fields[name]
+        elif name == 'date_last_updated':
+            if isinstance(value, basestring):
+                try:
+                    self._fields[name] = dateutil.parser.parse(value)
+                except ValueError:
+                    pass
+            return self._fields[name]
+        elif name == 'first_appeared_in_issue':
+            if isinstance(value, dict):
+                self._fields[name] = Issue(**value)
+            return self._fields[name]
+        elif name == 'issue_credits':
+            if isinstance(value, list):
+                self._fields[name] = Issues(value)
+            return self._fields[name]
+        elif name == 'movies':
+            if isinstance(value, list):
+                self._fields[name] = Movies(value)
+            return self._fields[name]
+        elif name == 'start_year':
+            if isinstance(value, basestring):
+                try:
+                    self._fields[name] = int(value)
+                except ValueError:
+                    pass
+            return self._fields[name]
+        elif name == 'story_arc_credits':
+            if isinstance(value, list):
+                self._fields[name] = StoryArcs(value)
+            return self._fields[name]
+        elif name == 'volume_credits':
+            if isinstance(value, list):
+                self._fields[name] = Volumes(value)
+            return self._fields[name]
+        else:
+            return value
 
 class Locations(_SortableListResource):
     pass
