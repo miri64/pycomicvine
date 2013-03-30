@@ -104,9 +104,8 @@ class _Resource(object):
                 params['field_list'] = "id," + params['field_list']
         params['format'] = 'json'
         params = urlencode(params)
-        response_raw = json.loads(urllib2.urlopen(
-                baseurl+"?"+params
-            ).read())
+        url = baseurl+"?"+params
+        response_raw = json.loads(urllib2.urlopen(url).read())
         response = type._Response(**response_raw)
         if response.status_code != 1:
             raise _EXCEPTIONS.get(response.status_code,UnknownStatusError)(
