@@ -732,7 +732,23 @@ class Promos(_SortableListResource):
     pass
 
 class Publisher(_SingularResource):
-    pass
+    aliases = AttributeDefinition('keep')
+    api_detail_url = AttributeDefinition('keep')
+    characters = AttributeDefinition('Characters')
+    date_added = AttributeDefinition(datetime.datetime)
+    date_last_updated = AttributeDefinition(datetime.datetime)
+    deck = AttributeDefinition('keep')
+    description = AttributeDefinition('keep')
+    id = AttributeDefinition('keep')
+    image = AttributeDefinition('keep')
+    location_address = AttributeDefinition('keep')
+    location_city = AttributeDefinition('keep')
+    location_state = AttributeDefinition('keep')
+    name = AttributeDefinition('keep')
+    site_detail_url = AttributeDefinition('keep')
+    story_arcs = AttributeDefinition('StoryArcs')
+    teams = AttributeDefinition('Teams')
+    volumes = AttributeDefinition('Volumes')
 
 class Publishers(_SortableListResource):
     pass
