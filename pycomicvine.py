@@ -582,7 +582,31 @@ class Locations(_SortableListResource):
     pass
 
 class Movie(_SingularResource):
-    pass
+    api_detail_url = AttributeDefinition('keep')
+    box_office_revenue = AttributeDefinition(int)
+    budget = AttributeDefinition(int)
+    characters = AttributeDefinition('Characters')
+    concepts = AttributeDefinition('Concepts')
+    date_added = AttributeDefinition(datetime.datetime)
+    date_last_updated = AttributeDefinition(datetime.datetime)
+    deck = AttributeDefinition('keep')
+    description = AttributeDefinition('keep')
+    distibutor = AttributeDefinition('keep')
+    has_staff_review = AttributeDefinition('keep')
+    id = AttributeDefinition('keep')
+    image = AttributeDefinition('keep')
+    locations = AttributeDefinition('Locations')
+    name = AttributeDefinition('keep')
+    producers = AttributeDefinition('People')
+    rating = AttributeDefinition(int)
+    release_date = AttributeDefinition(datetime.datetime)
+    runtime = AttributeDefinition(int)
+    site_detail_url = AttributeDefinition('keep')
+    studios = AttributeDefinition('keep')
+    teams = AttributeDefinition('Teams')
+    objects = AttributeDefinition('Objects')
+    total_revenue = AttributeDefinition(int)
+    writers = AttributeDefinition('People')
 
 class Movies(_SortableListResource):
     pass
