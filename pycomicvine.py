@@ -112,7 +112,8 @@ class _Resource(object):
             raise _EXCEPTIONS.get(response.status_code,UnknownStatusError)(
                     response.error
                 )
-        if 'aliases' in response.results:
+        if 'aliases' in response.results and \
+                isinstance(response.results['aliases'], basestring):
             response.results['aliases'] = response.results[
                     'aliases'
                 ].split('\n')
