@@ -897,7 +897,39 @@ class VideoTypes(_SortableListResource):
     pass
 
 class Volume(_SingularResource):
-    pass
+    aliases = AttributeDefinition('keep')
+    api_detail_url = AttributeDefinition('keep')
+    characters = AttributeDefinition('Characters')
+    concepts = AttributeDefinition('Concepts')
+    count_of_issues = AttributeDefinition(int)
+    date_added = AttributeDefinition(datetime.datetime)
+    date_last_updated = AttributeDefinition(datetime.datetime)
+    deck = AttributeDefinition('keep')
+    description = AttributeDefinition('keep')
+    first_issue = AttributeDefinition('Issue')
+    id = AttributeDefinition('keep')
+    image = AttributeDefinition('keep')
+    last_issue = AttributeDefinition('Issue')
+    locations = AttributeDefinition('Locations')
+    name = AttributeDefinition('keep')
+    objects = AttributeDefinition('Objects')
+    people = AttributeDefinition('People')
+    publisher = AttributeDefinition('Publisher')
+    site_detail_url = AttributeDefinition('keep')
+    start_year = AttributeDefinition(int)
+
+    def _fix_api_error(self, name):
+        if name == 'character_credits':
+            return 'characters'
+        if name == 'concept_credits':
+            return 'concepts'
+        if name == 'location_credits':
+            return 'locations'
+        if name == 'object_credits':
+            return 'objects'
+        if name == 'person_credits':
+            return 'people'
+        return super(Volume, self)._fix_api_error(name)
 
 class Volumes(_SortableListResource):
     pass
