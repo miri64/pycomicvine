@@ -762,7 +762,26 @@ class Search(_ListResource):
             )
 
 class StoryArc(_SingularResource):
-    pass
+    aliases = AttributeDefinition('keep')
+    api_detail_url = AttributeDefinition('keep')
+    count_of_isssue_appearances = AttributeDefinition(int)
+    date_added = AttributeDefinition(datetime.datetime)
+    date_last_updated = AttributeDefinition(datetime.datetime)
+    deck = AttributeDefinition('keep')
+    description = AttributeDefinition('keep')
+    first_appeared_in_issue = AttributeDefinition('Issue')
+    id = AttributeDefinition('keep')
+    image = AttributeDefinition('keep')
+    issues = AttributeDefinition('Issues')
+    movies = AttributeDefinition('Movies')
+    name = AttributeDefinition('keep')
+    publisher = AttributeDefinition('Publisher')
+    site_detail_url = AttributeDefinition('keep')
+
+    def _fix_api_error(self, name):
+        if name == 'count_of_issue_appearances':
+            return 'count_of_isssue_appearances'
+        return super(StoryArc, self)._fix_api_error(name)
 
 class StoryArcs(_SortableListResource):
     pass
