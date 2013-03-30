@@ -787,7 +787,36 @@ class StoryArcs(_SortableListResource):
     pass
 
 class Team(_SingularResource):
-    pass
+    aliases = AttributeDefinition('keep')
+    api_detail_url = AttributeDefinition('keep')
+    character_enemies = AttributeDefinition('Characters')
+    character_friends = AttributeDefinition('Characters')
+    characters = AttributeDefinition('Characters')
+    count_of_isssue_appearances = AttributeDefinition(int)
+    count_of_team_members = AttributeDefinition(int)
+    date_added = AttributeDefinition(datetime.datetime)
+    date_last_updated = AttributeDefinition(datetime.datetime)
+    deck = AttributeDefinition('keep')
+    description = AttributeDefinition('keep')
+    disbanded_in_issues = AttributeDefinition('Issues')
+    first_appeared_in_issue = AttributeDefinition('Issue')
+    id = AttributeDefinition('keep')
+    image = AttributeDefinition('keep')
+    issue_credits = AttributeDefinition('Issues')
+    isssues_disbanded_in = AttributeDefinition('Issues')
+    movies = AttributeDefinition('Movies')
+    name = AttributeDefinition('keep')
+    publisher = AttributeDefinition('Publisher')
+    site_detail_url = AttributeDefinition('keep')
+    story_arc_credits = AttributeDefinition('StoryArcs')
+    volume_credits = AttributeDefinition('Volumes')
+
+    def _fix_api_error(self, name):
+        if name == 'count_of_issue_appearances':
+            return 'count_of_isssue_appearances'
+        if name == 'issues_disbanded_in':
+            return 'isssues_disbanded_in'
+        return super(Team, self)._fix_api_error(name)
 
 class Teams(_SortableListResource):
     pass
