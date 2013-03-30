@@ -200,8 +200,8 @@ class _SingularResource(_Resource):
             return u"["+unicode(self.id)+u"]"
 
     def __repr__(self):
-        return u"<"+unicode(type(self).__name__)+u": '"+unicode(self)\
-                +u"'>"
+        return u"<"+unicode(type(self).__name__)+u": "+unicode(self)\
+                +u">"
 
 class _ListResource(_Resource):
     def _request_object(self, **params):
@@ -474,7 +474,7 @@ class Concepts(_SortableListResource):
 class Issue(_SingularResource):
     def __unicode__(self):
         string = u""
-        if 'name' in self._fields:
+        if 'name' in self._fields and self._fields['name'] != None:
             string += unicode(self.name.encode(
                         'ascii',
                         'backslashreplace'
