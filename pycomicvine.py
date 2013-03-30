@@ -472,6 +472,102 @@ class Concepts(_SortableListResource):
     pass
 
 class Issue(_SingularResource):
+    def __getattribute__(self, name):
+        value = super(Issue, self).__getattribute__(name)
+        if name == 'character_credits':
+            if isinstance(value, list):
+                self._fields[name] = Characters(value)
+            return self._fields[name]
+        elif name == 'character_died_in':
+            if isinstance(value, list):
+                self._fields[name] = Characters(value)
+            return self._fields[name]
+        elif name == 'concept_credits':
+            if isinstance(value, list):
+                self._fields[name] = Concepts(value)
+            return self._fields[name]
+        elif name == 'cover_date':
+            if isinstance(value, basestring):
+                try:
+                    self._fields[name] = dateutil.parser.parse(value)
+                except ValueError:
+                    pass
+            return self._fields[name]
+        elif name == 'date_added':
+            if isinstance(value, basestring):
+                try:
+                    self._fields[name] = dateutil.parser.parse(value)
+                except ValueError:
+                    pass
+            return self._fields[name]
+        elif name == 'date_last_updated':
+            if isinstance(value, basestring):
+                try:
+                    self._fields[name] = dateutil.parser.parse(value)
+                except ValueError:
+                    pass
+            return self._fields[name]
+        elif name == 'first_appearance_characters':
+            if isinstance(value, list):
+                self._fields[name] = Characters(value)
+            return self._fields[name]
+        elif name == 'first_appearance_objects':
+            if isinstance(value, list):
+                self._fields[name] = Objects(value)
+            return self._fields[name]
+        elif name == 'first_appearance_storyarcs':
+            if isinstance(value, list):
+                self._fields[name] = StoryArcs(value)
+            return self._fields[name]
+        elif name == 'first_appearance_teams':
+            if isinstance(value, list):
+                self._fields[name] = Teams(value)
+            return self._fields[name]
+        elif name == 'issue_number':
+            if isinstance(value, basestring):
+                try:
+                    self._fields[name] = int(value)
+                except ValueError:
+                    pass
+            return self._fields[name]
+        elif name == 'location_credits':
+            if isinstance(value, list):
+                self._fields[name] = Locations(value)
+            return self._fields[name]
+        elif name == 'object_credits':
+            if isinstance(value, list):
+                self._fields[name] = Objects(value)
+            return self._fields[name]
+        elif name == 'person_credits':
+            if isinstance(value, list):
+                self._fields[name] = People(value)
+            return self._fields[name]
+        elif name == 'store_date':
+            if isinstance(value, basestring):
+                try:
+                    self._fields[name] = dateutil.parser.parse(value)
+                except ValueError:
+                    pass
+            return self._fields[name]
+        elif name == 'story_arc_credits':
+            if isinstance(value, list):
+                self._fields[name] = StoryArcs(value)
+            return self._fields[name]
+        elif name == 'team_credits':
+            if isinstance(value, list):
+                self._fields[name] = Teams(value)
+            return self._fields[name]
+        elif name == 'team_disbanded_in':
+            if isinstance(value, list):
+                self._fields[name] = Teams(value)
+            return self._fields[name]
+        elif name == 'volume':
+            if isinstance(value, dict):
+                self._fields[name] = Volume(**value)
+            return self._fields[name]
+        else:
+            return value
+
     def __unicode__(self):
         string = u""
         if 'name' in self._fields and self._fields['name'] != None:
