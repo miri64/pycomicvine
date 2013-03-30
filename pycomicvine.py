@@ -284,6 +284,7 @@ class _SingularResource(_Resource):
                 fields[name] = definition.convert(value)
             return fields[name]
 
+        name = _object_attribute('_fix_api_error')(name)
         try:
             if name not in ['__dict__', '_request_object'] and \
                     name not in self.__dict__:
@@ -299,6 +300,9 @@ class _SingularResource(_Resource):
         except KeyError:
             pass
         return _object_attribute(name)
+
+    def _fix_api_error(self, name):
+        return name
 
     def __str__(self):
         return str(unicode(self))
@@ -502,6 +506,11 @@ class Concept(_SingularResource):
     start_year = AttributeDefinition(int)
     volume_credits = AttributeDefinition('Volumes')
 
+    def _fix_api_error(self, name):
+        if name == 'count_of_issue_appearances':
+            return 'count_of_isssue_appearances'
+        return super(Concept, self)._fix_api_error(name)
+
 class Concepts(_SortableListResource):
     pass
 
@@ -556,6 +565,15 @@ class Issue(_SingularResource):
                     ))+u" "+string
         return string + u"["+unicode(self.id)+u"]"
 
+    def _fix_api_error(self, name):
+        if name == 'characters_died_in':
+            return 'character_died_in'
+        if name == 'disbanded_teams':
+            return 'team_disbanded_in'
+        if name == 'teams_disbanded_in':
+            return 'team_disbanded_in'
+        return super(Issue, self)._fix_api_error(name)
+
 class Issues(_SortableListResource):
     pass
 
@@ -607,6 +625,11 @@ class Movie(_SingularResource):
     objects = AttributeDefinition('Objects')
     total_revenue = AttributeDefinition(int)
     writers = AttributeDefinition('People')
+
+    def _fix_api_error(self, name):
+        if name == 'things':
+            return 'objects'
+        return super(Movie, self)._fix_api_error(name)
 
 class Movies(_SortableListResource):
     pass
