@@ -2,6 +2,7 @@ import urllib2
 from urllib import urlencode
 import simplejson as json
 import sys, re
+import datetime
 import dateutil.parser
 
 _API_URL = "https://www.comicvine.com/api/"
@@ -37,6 +38,9 @@ class UnknownStatusError(Exception):
 class IllegalArquementException(Exception):
     pass
 
+class NotConvertableError(Exception):
+    pass
+
 _EXCEPTIONS = {
         100: InvalidAPIKeyError,
         101: ObjectNotFoundError,
@@ -45,6 +49,70 @@ _EXCEPTIONS = {
         104: FilterError,
         105: SubscriberOnlyError,
     }
+
+class AttributeDefinition(object):
+    def __init__(self, target, start_type = None):
+        def _to_datetime(value):
+            try:
+                return dateutil.parser.parse(value)
+            except ValueError:
+                return value
+
+        def _to_int(value):
+            try:
+                new_value = value.replace(',','')
+                return int(new_value)
+            except ValueError:
+                return value
+
+        self._start_type = start_type
+        if target == datetime.datetime or target == 'datetime':
+            self._target = _to_datetime
+            self._target_name = 'datetime'
+        elif target == int or target == 'int':
+            self._target = _to_int
+            self._target_name = 'int'
+        elif callable(target):
+            if not isinstance(start_type, type):
+                raise IllegalArquementException(
+                        "A start type needs to be defined"
+                    )
+            self._target = target
+            self._target_name = 'callable'
+        elif target == 'keep':
+            self._target = lambda value: value
+            self._target_name = 'keep'
+        else:
+            self._target = None
+            self._target_name = target
+
+    def convert(self, value):
+        if self._target_name == 'callable' and \
+                isinstance(value, self._start_type):
+            return self._target(value)
+        elif self._target != None:
+            if value == None:
+                pass
+            elif isinstance(value, basestring):
+                return self._target(value)
+        else:
+            target = getattr(sys.modules[__name__], self._target_name)
+            if issubclass(target, _SingularResource):
+                if isinstance(value, dict):
+                    value = target(**value)
+                else:
+                    return value
+            elif issubclass(target, _ListResource):
+                if isinstance(value, list):
+                    value = target(value)
+                else:
+                    return value
+            else:
+                raise NotConvertableError(
+                        "Error in convertion '"+str(value)+"' => "+\
+                        self._target_name
+                    )
+        return value
 
 class _Resource(object):
     class _Response:
@@ -204,18 +272,30 @@ class _SingularResource(_Resource):
     def __getattribute__(self, name):
         def _object_attribute(name):
             return object.__getattribute__(self, name)
+
+        def _parse_attribute(name):
+            fields = _object_attribute('_fields')
+            value = _object_attribute('_fields')[name]
+            if name in filter(
+                    lambda x: not x.startswith('_'),
+                    type(self).__dict__
+                ):
+                definition = type(self).__dict__[name]
+                fields[name] = definition.convert(value)
+            return fields[name]
+
         try:
             if name not in ['__dict__', '_request_object'] and \
                     name not in self.__dict__:
                 if name in _object_attribute('_fields'):
-                    return _object_attribute('_fields')[name]
+                    return _parse_attribute(name)
                 else:
                     self._fields.update(
                             _object_attribute('_request_object')(
                                     [name]
                                 ).results
                         )
-                    return _object_attribute('_fields')[name]
+                    return _parse_attribute(name)
         except KeyError:
             pass
         return _object_attribute(name)
@@ -356,253 +436,106 @@ class _SortableListResource(_ListResource):
         super(_SortableListResource, self).__init__(init_list, **kwargs)
 
 class Character(_SingularResource):
-    def __getattribute__(self, name):
-        value = super(Character, self).__getattribute__(name)
-        if name == 'birth':
-            if isinstance(value, basestring):
-                try:
-                    self._fields[name] = dateutil.parser.parse(value)
-                except ValueError:
-                    pass
-            return self._fields[name]
-        elif name == 'character_enemies':
-            if isinstance(value, list):
-                self._fields[name] = Characters(value)
-            return self._fields[name]
-        elif name == 'character_friends':
-            if isinstance(value, list):
-                self._fields[name] = Characters(value)
-            return self._fields[name]
-        elif name == 'creators':
-            if isinstance(value, list):
-                self._fields[name] = People(value)
-            return self._fields[name]
-        elif name == 'date_added':
-            if isinstance(value, basestring):
-                try:
-                    self._fields[name] = dateutil.parser.parse(value)
-                except ValueError:
-                    pass
-            return self._fields[name]
-        elif name == 'date_last_updated':
-            if isinstance(value, basestring):
-                try:
-                    self._fields[name] = dateutil.parser.parse(value)
-                except ValueError:
-                    pass
-            return self._fields[name]
-        elif name == 'first_appeared_in_issue':
-            if isinstance(value, dict):
-                self._fields[name] = Issue(**value)
-            return self._fields[name]
-        elif name == 'gender':
-            if isinstance(value, int):
-                self._fields[name] = \
-                        u'\u2642' if value == 1 else \
-                        u'\u2640' if value == 2 else u'\u26a7'
-            return self._fields[name]
-        elif name == 'issue_credits':
-            if isinstance(value, list):
-                self._fields[name] = Issues(value)
-            return self._fields[name]
-        elif name == 'issues_died_in':
-            if isinstance(value, list):
-                    self._fields[name] = Issues(value)
-            return self._fields[name]
-        elif name == 'movies':
-            if isinstance(value, list):
-                    self._fields[name] = Movies(value)
-            return self._fields[name]
-        elif name == 'origin':
-            if isinstance(value, dict):
-                self._fields[name] = Origin(**value)
-            elif isinstance(value, list):
-                self._fields[name] = Origins(value)
-            return self._fields[name]
-        elif name == 'powers':
-            if isinstance(value, list):
-                    self._fields[name] = Powers(value)
-            return self._fields[name]
-        elif name == 'publisher':
-            if isinstance(value, dict):
-                self._fields[name] = Publisher(**value)
-            elif isinstance(value, list):
-                self._fields[name] = Publishers(value)
-            return self._fields[name]
-        elif name == 'story_arc_credits':
-            if isinstance(value, list):
-                self._fields[name] = StoryArcs(value)
-            return self._fields[name]
-        elif name == 'team_enemies':
-            if isinstance(value, list):
-                self._fields[name] = Teams(value)
-            return self._fields[name]
-        elif name == 'team_friends':
-            if isinstance(value, list):
-                self._fields[name] = Teams(value)
-            return self._fields[name]
-        elif name == 'teams':
-            if isinstance(value, list):
-                self._fields[name] = Teams(value)
-            return self._fields[name]
-        elif name == 'volume_credits':
-            if isinstance(value, list):
-                self._fields[name] = Volumes(value)
-            return self._fields[name]
-        else:
-            return value
+    api_detail_url = AttributeDefinition('keep')
+    birth = AttributeDefinition(datetime.datetime)
+    character_enemies = AttributeDefinition('Characters')
+    character_friends = AttributeDefinition('Characters')
+    count_of_issue_appearances = AttributeDefinition('keep')
+    creators = AttributeDefinition('People')
+    date_added = AttributeDefinition(datetime.datetime)
+    date_last_updated = AttributeDefinition(datetime.datetime)
+    deck = AttributeDefinition('keep')
+    description = AttributeDefinition('keep')
+    first_appeared_in_issue = AttributeDefinition('Issue')
+    gender = AttributeDefinition(
+            lambda value:   u'\u2642' if value == 1 else
+                            u'\u2640' if value == 2 else u'\u26a7',
+            int
+        )
+    id = AttributeDefinition('keep')
+    image = AttributeDefinition('keep')
+    issue_credits = AttributeDefinition('Issues')
+    issues_died_in = AttributeDefinition('Issues')
+    movies = AttributeDefinition('Movies')
+    name = AttributeDefinition('keep')
+    origin = AttributeDefinition('Origin')
+    powers = AttributeDefinition('Powers')
+    publisher = AttributeDefinition('Publisher')
+    real_name = AttributeDefinition('keep')
+    site_detail_url = AttributeDefinition('keep')
+    story_arc_credits = AttributeDefinition('StoryArcs')
+    team_enemies = AttributeDefinition('Teams')
+    team_friends = AttributeDefinition('Teams')
+    teams = AttributeDefinition('Teams')
+    volume_credits = AttributeDefinition('Volumes')
 
 class Characters(_SortableListResource):
     pass
 
 class Chat(_SingularResource):
-    pass
+    api_detail_url = AttributeDefinition('keep')
+    channel_name = AttributeDefinition('keep')
+    deck = AttributeDefinition('keep')
+    image = AttributeDefinition('keep')
+    password = AttributeDefinition('keep')
+    site_detail_url = AttributeDefinition('keep')
+    title = AttributeDefinition('keep')
 
 class Chats(_SortableListResource):
     pass
 
 class Concept(_SingularResource):
-    def __getattribute__(self, name):
-        value = super(Concept, self).__getattribute__(name)
-        if name == 'date_added':
-            if isinstance(value, basestring):
-                try:
-                    self._fields[name] = dateutil.parser.parse(value)
-                except ValueError:
-                    pass
-            return self._fields[name]
-        elif name == 'date_last_updated':
-            if isinstance(value, basestring):
-                try:
-                    self._fields[name] = dateutil.parser.parse(value)
-                except ValueError:
-                    pass
-            return self._fields[name]
-        elif name == 'first_appeared_in_issue':
-            if isinstance(value, dict):
-                self._fields[name] = Issue(**value)
-            return self._fields[name]
-        elif name == 'issue_credits':
-            if isinstance(value, list):
-                self._fields[name] = Issues(value)
-            return self._fields[name]
-        elif name == 'movies':
-            if isinstance(value, list):
-                self._fields[name] = Movies(value)
-            return self._fields[name]
-        elif name == 'start_year':
-            if isinstance(value, basestring):
-                try:
-                    self._fields[name] = int(value)
-                except ValueError:
-                    pass
-            return self._fields[name]
-        elif name == 'volume_credits':
-            if isinstance(value, list):
-                self._fields[name] = Volumes(value)
-            return self._fields[name]
-        else:
-            return value
+    aliases = AttributeDefinition('keep')
+    api_detail_url = AttributeDefinition('keep')
+    count_of_isssue_appearances = AttributeDefinition('keep')
+    date_added = AttributeDefinition(datetime.datetime)
+    date_last_updated = AttributeDefinition(datetime.datetime)
+    deck = AttributeDefinition('keep')
+    description = AttributeDefinition('keep')
+    first_appeared_in_issue = AttributeDefinition('Issue')
+    id = AttributeDefinition('keep')
+    image = AttributeDefinition('keep')
+    issue_credits = AttributeDefinition('Issues')
+    movies = AttributeDefinition('Movies')
+    name = AttributeDefinition('keep')
+    site_detail_url = AttributeDefinition('keep')
+    start_year = AttributeDefinition(int)
+    volume_credits = AttributeDefinition('Volumes')
 
 class Concepts(_SortableListResource):
     pass
 
 class Issue(_SingularResource):
-    def __getattribute__(self, name):
-        value = super(Issue, self).__getattribute__(name)
-        if name == 'character_credits':
-            if isinstance(value, list):
-                self._fields[name] = Characters(value)
-            return self._fields[name]
-        elif name == 'character_died_in':
-            if isinstance(value, list):
-                self._fields[name] = Characters(value)
-            return self._fields[name]
-        elif name == 'concept_credits':
-            if isinstance(value, list):
-                self._fields[name] = Concepts(value)
-            return self._fields[name]
-        elif name == 'cover_date':
-            if isinstance(value, basestring):
-                try:
-                    self._fields[name] = dateutil.parser.parse(value)
-                except ValueError:
-                    pass
-            return self._fields[name]
-        elif name == 'date_added':
-            if isinstance(value, basestring):
-                try:
-                    self._fields[name] = dateutil.parser.parse(value)
-                except ValueError:
-                    pass
-            return self._fields[name]
-        elif name == 'date_last_updated':
-            if isinstance(value, basestring):
-                try:
-                    self._fields[name] = dateutil.parser.parse(value)
-                except ValueError:
-                    pass
-            return self._fields[name]
-        elif name == 'first_appearance_characters':
-            if isinstance(value, list):
-                self._fields[name] = Characters(value)
-            return self._fields[name]
-        elif name == 'first_appearance_objects':
-            if isinstance(value, list):
-                self._fields[name] = Objects(value)
-            return self._fields[name]
-        elif name == 'first_appearance_storyarcs':
-            if isinstance(value, list):
-                self._fields[name] = StoryArcs(value)
-            return self._fields[name]
-        elif name == 'first_appearance_teams':
-            if isinstance(value, list):
-                self._fields[name] = Teams(value)
-            return self._fields[name]
-        elif name == 'issue_number':
-            if isinstance(value, basestring):
-                try:
-                    self._fields[name] = int(value)
-                except ValueError:
-                    pass
-            return self._fields[name]
-        elif name == 'location_credits':
-            if isinstance(value, list):
-                self._fields[name] = Locations(value)
-            return self._fields[name]
-        elif name == 'object_credits':
-            if isinstance(value, list):
-                self._fields[name] = Objects(value)
-            return self._fields[name]
-        elif name == 'person_credits':
-            if isinstance(value, list):
-                self._fields[name] = People(value)
-            return self._fields[name]
-        elif name == 'store_date':
-            if isinstance(value, basestring):
-                try:
-                    self._fields[name] = dateutil.parser.parse(value)
-                except ValueError:
-                    pass
-            return self._fields[name]
-        elif name == 'story_arc_credits':
-            if isinstance(value, list):
-                self._fields[name] = StoryArcs(value)
-            return self._fields[name]
-        elif name == 'team_credits':
-            if isinstance(value, list):
-                self._fields[name] = Teams(value)
-            return self._fields[name]
-        elif name == 'team_disbanded_in':
-            if isinstance(value, list):
-                self._fields[name] = Teams(value)
-            return self._fields[name]
-        elif name == 'volume':
-            if isinstance(value, dict):
-                self._fields[name] = Volume(**value)
-            return self._fields[name]
-        else:
-            return value
+    aliases = AttributeDefinition('keep')
+    api_detail_url = AttributeDefinition('keep')
+    character_credits = AttributeDefinition('Characters')
+    character_died_in = AttributeDefinition('Characters')
+    concept_credits = AttributeDefinition('Concepts')
+    cover_date = AttributeDefinition(datetime.datetime)
+    date_added = AttributeDefinition(datetime.datetime)
+    date_last_updated = AttributeDefinition(datetime.datetime)
+    deck = AttributeDefinition('keep')
+    description = AttributeDefinition('keep')
+    first_appearance_characters = AttributeDefinition('Characters')
+    first_appearance_concepts = AttributeDefinition('Concepts')
+    first_appearance_locations = AttributeDefinition('Locations')
+    first_appearance_objects = AttributeDefinition('Objects')
+    first_appearance_storyarcs = AttributeDefinition('StoryArcs')
+    first_appearance_teams = AttributeDefinition('Teams')
+    has_staff_review = AttributeDefinition('keep')
+    id = AttributeDefinition('keep')
+    image = AttributeDefinition('keep')
+    issue_number = AttributeDefinition(int)
+    location_credits = AttributeDefinition('Locations')
+    name = AttributeDefinition('keep')
+    object_credits = AttributeDefinition('Objects')
+    person_credits = AttributeDefinition('People')
+    site_detail_url = AttributeDefinition('keep')
+    store_date = AttributeDefinition(datetime.datetime)
+    story_arc_credits = AttributeDefinition('StoryArcs')
+    team_credits = AttributeDefinition('Teams')
+    team_disbanded_in = AttributeDefinition('Teams')
+    volume = AttributeDefinition('Volume')
 
     def __unicode__(self):
         string = u""
@@ -627,51 +560,23 @@ class Issues(_SortableListResource):
     pass
 
 class Location(_SingularResource):
-    def __getattribute__(self, name):
-        value = super(Location, self).__getattribute__(name)
-        if name == 'date_added':
-            if isinstance(value, basestring):
-                try:
-                    self._fields[name] = dateutil.parser.parse(value)
-                except ValueError:
-                    pass
-            return self._fields[name]
-        elif name == 'date_last_updated':
-            if isinstance(value, basestring):
-                try:
-                    self._fields[name] = dateutil.parser.parse(value)
-                except ValueError:
-                    pass
-            return self._fields[name]
-        elif name == 'first_appeared_in_issue':
-            if isinstance(value, dict):
-                self._fields[name] = Issue(**value)
-            return self._fields[name]
-        elif name == 'issue_credits':
-            if isinstance(value, list):
-                self._fields[name] = Issues(value)
-            return self._fields[name]
-        elif name == 'movies':
-            if isinstance(value, list):
-                self._fields[name] = Movies(value)
-            return self._fields[name]
-        elif name == 'start_year':
-            if isinstance(value, basestring):
-                try:
-                    self._fields[name] = int(value)
-                except ValueError:
-                    pass
-            return self._fields[name]
-        elif name == 'story_arc_credits':
-            if isinstance(value, list):
-                self._fields[name] = StoryArcs(value)
-            return self._fields[name]
-        elif name == 'volume_credits':
-            if isinstance(value, list):
-                self._fields[name] = Volumes(value)
-            return self._fields[name]
-        else:
-            return value
+    aliases = AttributeDefinition('keep')
+    api_detail_url = AttributeDefinition('keep')
+    count_of_issue_appearances = AttributeDefinition(int)
+    date_added = AttributeDefinition(datetime.datetime)
+    date_last_updated = AttributeDefinition(datetime.datetime)
+    deck = AttributeDefinition('keep')
+    description = AttributeDefinition('keep')
+    first_appeared_in_issue = AttributeDefinition('Issue')
+    id = AttributeDefinition('keep')
+    image = AttributeDefinition('keep')
+    issue_credits = AttributeDefinition('Issues')
+    movies = AttributeDefinition('Movies')
+    name = AttributeDefinition('keep')
+    site_detail_url = AttributeDefinition('keep')
+    start_year = AttributeDefinition(int)
+    story_arc_credits = AttributeDefinition('StoryArcs')
+    volume_credits = AttributeDefinition('Volumes')
 
 class Locations(_SortableListResource):
     pass
