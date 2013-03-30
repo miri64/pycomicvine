@@ -635,7 +635,23 @@ class Movies(_SortableListResource):
     pass
 
 class Object(_SingularResource):
-    pass
+    aliases = AttributeDefinition('keep')
+    api_detail_url = AttributeDefinition('keep')
+    count_of_issue_appearances = AttributeDefinition(int)
+    date_added = AttributeDefinition(datetime.datetime)
+    date_last_updated = AttributeDefinition(datetime.datetime)
+    deck = AttributeDefinition('keep')
+    description = AttributeDefinition('keep')
+    first_appeared_in_issue = AttributeDefinition('Issue')
+    id = AttributeDefinition('keep')
+    image = AttributeDefinition('keep')
+    issue_credits = AttributeDefinition('Issues')
+    movies = AttributeDefinition('Movies')
+    name = AttributeDefinition('keep')
+    site_detail_url = AttributeDefinition('keep')
+    start_year = AttributeDefinition(int)
+    story_arc_credits = AttributeDefinition('StoryArcs')
+    volume_credits = AttributeDefinition('Volumes')
 
 class Objects(_SortableListResource):
     pass
