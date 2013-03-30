@@ -668,7 +668,39 @@ class Origins(_SortableListResource):
     pass
 
 class Person(_SingularResource):
-    pass
+    aliases = AttributeDefinition('keep')
+    api_detail_url = AttributeDefinition('keep')
+    birth = AttributeDefinition(datetime.datetime)
+    count_of_isssue_appearances = AttributeDefinition('keep')
+    country = AttributeDefinition('keep')
+    created_characters = AttributeDefinition('Characters')
+    date_added = AttributeDefinition(datetime.datetime)
+    date_last_updated = AttributeDefinition(datetime.datetime)
+    death = AttributeDefinition(datetime.datetime)
+    deck = AttributeDefinition('keep')
+    description = AttributeDefinition('keep')
+    email = AttributeDefinition('keep')
+    gender = AttributeDefinition(
+            lambda value:   u'\u2642' if value == 1 else
+                            u'\u2640' if value == 2 else u'\u26a7',
+            int
+        )
+    hometown = AttributeDefinition('keep')
+    id = AttributeDefinition('keep')
+    image = AttributeDefinition('keep')
+    issues = AttributeDefinition('Issues')
+    name = AttributeDefinition('keep')
+    site_detail_url = AttributeDefinition('keep')
+    story_arc_credits = AttributeDefinition('StoryArcs')
+    volume_credits = AttributeDefinition('Volumes')
+    website = AttributeDefinition('keep')
+
+    def _fix_api_error(self, name):
+        if name == 'count_of_issue_appearances':
+            return 'count_of_isssue_appearances'
+        if name == 'issue_credits':
+            return 'issues'
+        return super(Person, self)._fix_api_error(name)
 
 class People(_SortableListResource):
     pass
