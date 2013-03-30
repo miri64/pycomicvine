@@ -119,7 +119,14 @@ class _Resource(object):
         return response
 
 class _SingularResource(_Resource):
-    def __new__(type, id, **kwargs):
+    def __new__(
+            type,
+            id,
+            all = False,
+            field_list = [],
+            do_not_download = False,
+            **kwargs
+        ):
         resource_type = kwargs.get(
                 'resource_type',
                 type
@@ -132,11 +139,25 @@ class _SingularResource(_Resource):
         key = "{0:d}-{1:d}".format(type_id, id)
         obj = _cached_resources.get(key)
         if obj == None:
-            obj = object.__new__(type, id, **kwargs)
+            obj = object.__new__(
+                    type,
+                    id,
+                    all,
+                    field_list,
+                    do_not_download,
+                    **kwargs
+                )
             _cached_resources[key] = obj
         return obj
 
-    def __init__(self, id, **kwargs):
+    def __init__(
+            self,
+            id,
+            all = False,
+            field_list = [],
+            do_not_download = False,
+            **kwargs
+        ):
         if '_ready' not in self.__dict__:
             self._ready = True
             try:
@@ -150,10 +171,14 @@ class _SingularResource(_Resource):
             self._detail_url = type(self)._resource_url + \
                     "{0:d}-{1:d}/".format(type_id, id)
             self._fields = {'id': id}
+            if not do_not_download:
+                if all:
+                    self._fields.update(self._request_object().results)
+                else:
+                    self._fields.update(self._request_object(
+                            field_list
+                        ).results)
             if 'field_list' in kwargs:
-                self._fields.update(self._request_object(
-                        kwargs['field_list']
-                    ).results)
                 del kwargs['field_list']
             self._fields.update(kwargs)
         elif 'field_list' in kwargs:
@@ -163,10 +188,15 @@ class _SingularResource(_Resource):
 
 
     def _request_object(self, field_list = None):
-        return type(self)._request(
-                self._detail_url,
-                field_list=field_list
-            )
+        if field_list == None:
+            return type(self)._request(
+                    self._detail_url,
+                )
+        else:
+            return type(self)._request(
+                    self._detail_url,
+                    field_list=field_list
+                )
 
     def __getattribute__(self, name):
         def _object_attribute(name):
@@ -292,11 +322,14 @@ class _ListResource(_Resource):
             if type(self) == Search:
                 self._results[index] = type_dict[
                         self._results[index]['resource_type']
-                    ]['singular_resource_class'](**self._results[index])
+                    ]['singular_resource_class'](
+                            do_not_download=True,
+                            **self._results[index]
+                        )
             else:
                 self._results[index] = type_dict[type(self)][
                         'singular_resource_class'
-                    ](**self._results[index])
+                    ](do_not_download=True, **self._results[index])
 
 class _SortableListResource(_ListResource):
     def __init__(self, init_list = None, sort = None, **kwargs):
