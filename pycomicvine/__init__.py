@@ -776,12 +776,8 @@ class Publishers(_SortableListResource):
     pass
 
 class Search(_ListResource):
-    def __init__(self, resources, query, **kwargs):
-        super(Search, self).__init__(
-                resources=resources,
-                query=query,
-                **kwargs
-            )
+    def __init__(self, query, **kwargs):
+        super(Search, self).__init__(query=query, **kwargs)
 
 class StoryArc(_SingularResource):
     aliases = AttributeDefinition('keep')
