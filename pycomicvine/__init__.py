@@ -121,7 +121,7 @@ class AttributeDefinition(object):
             target = getattr(sys.modules[__name__], self._target_name)
             if issubclass(target, _SingularResource):
                 if isinstance(value, dict):
-                    value = target(**value)
+                    value = target(do_not_download=True, **value)
                 else:
                     return value
             elif issubclass(target, _ListResource):
