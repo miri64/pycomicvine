@@ -232,14 +232,7 @@ class _SingularResource(_Resource):
         key = "{0:d}-{1:d}".format(type_id, id)
         obj = _cached_resources.get(key)
         if obj == None:
-            obj = object.__new__(
-                    type,
-                    id,
-                    all,
-                    field_list,
-                    do_not_download,
-                    **kwargs
-                )
+            obj = object.__new__(type)
             _cached_resources[key] = obj
         return obj
 
