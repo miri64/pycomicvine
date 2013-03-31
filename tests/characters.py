@@ -12,6 +12,8 @@ class TestCharactersList(unittest.TestCase):
     def test_get_id_and_name(self):
         characters = pycomicvine.Characters(field_list=['name','id'])
         self.assertNotEqual(len(characters), 0)
+        for c in characters:
+            self.assertIsInstance(c, pycomicvine.Character)
 
 class TestCharacterAttributes(unittest.TestCase):
     def setUp(self):
@@ -32,8 +34,9 @@ class TestCharacterAttributes(unittest.TestCase):
                 field_list=['id']
             )
         self.assertNotEqual(len(search),0)
-        self.assertIsInstance(search[0], pycomicvine.Character)
-        self.assertEqual(search[0].id, self.id)
+        for c in search:
+            self.assertIsInstance(c, pycomicvine.Character)
+        self.assertIn(self.id, [c.id for c in search])
 
     def test_get_all_attributes(self):
         logging.getLogger("tests").debug(
