@@ -335,6 +335,13 @@ class _SingularResource(_Resource):
         return u"<"+unicode(type(self).__name__)+u": "+unicode(self)\
                 +u">"
 
+    @staticmethod
+    def search(query, **kwargs):
+        if 'resources' in kwargs:
+            del kwargs['resources']
+        resource_type = Types.snakify_type_name(type)
+        return Search(query=query, resources=resource_type, **kwargs)
+
 class _ListResource(_Resource):
     def _request_object(self, **params):
         type(self)._ensure_resource_url()

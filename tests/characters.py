@@ -19,6 +19,15 @@ class TestCharacterAttributes(unittest.TestCase):
                 [(c.id, c.name) for c in characters[:100]]
             )
 
+    def test_search(self):
+        search = pycomicvine.Character.search(
+                self.name,
+                field_list=['id']
+            )
+        self.assertNotEqual(len(search),0)
+        self.assertIsInstance(search[0], pycomicvine.Character)
+        self.assertEqual(search[0].id, self.id)
+
     def test_get_all_attributes(self):
         character = pycomicvine.Character(self.id, True)
 
