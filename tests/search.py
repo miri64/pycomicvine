@@ -9,7 +9,8 @@ class TestSearch(unittest.TestCase):
                 resources="volume", 
                 query="Angel"
             )
-        self.assertIsInstance(search[0], pycomicvine.Volume)
+        for v in search:
+            self.assertIsInstance(v, pycomicvine.Volume)
 
     def test_search_id(self):
         search = pycomicvine.Search(
@@ -17,5 +18,5 @@ class TestSearch(unittest.TestCase):
                 field_list=["id"]
             )
         self.assertNotEqual(len(search),0)
-        self.assertEqual(search[0].id, 18166)
+        self.assertEqual(18166, [s.id for s in search])
 
