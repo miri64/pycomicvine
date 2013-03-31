@@ -340,13 +340,6 @@ class _SingularResource(_Resource):
         return u"<"+unicode(type(self).__name__)+u": "+unicode(self)\
                 +u">"
 
-    @staticmethod
-    def search(query, **kwargs):
-        if 'resources' in kwargs:
-            del kwargs['resources']
-        resource_type = Types.snakify_type_name(type)
-        return Search(query=query, resources=resource_type, **kwargs)
-
 class _ListResource(_Resource):
     def _request_object(self, **params):
         type(self)._ensure_resource_url()
@@ -465,6 +458,16 @@ class _SortableListResource(_ListResource):
                         sort = sort['field']+":asc"
             kwargs['sort'] = sort
         super(_SortableListResource, self).__init__(init_list, **kwargs)
+
+    @classmethod
+    def search(type, query, **kwargs):
+        if 'resources' in kwargs:
+            del kwargs['resources']
+        types = Types()
+        resource_type = types[
+                Types.snakify_type_name(type)
+            ]['detail_resource_name']
+        return Search(query=query, resources=resource_type, **kwargs)
 
 class Character(_SingularResource):
     api_detail_url = AttributeDefinition('keep')

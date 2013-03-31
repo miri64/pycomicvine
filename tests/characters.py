@@ -29,7 +29,7 @@ class TestCharacterAttributes(unittest.TestCase):
                 self.id,
                 self.name
             )
-        search = pycomicvine.Character.search(
+        search = pycomicvine.Characters.search(
                 self.name,
                 field_list=['id']
             )
