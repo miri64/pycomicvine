@@ -268,9 +268,13 @@ class _SingularResource(_Resource):
                 del kwargs['field_list']
             self._fields.update(kwargs)
         elif 'field_list' in kwargs:
-            self._fields.update(self._request_object(
-                    kwargs['field_list']
-                ).results)
+            if not all or not do_not_download:
+                self._fields.update(self._request_object(
+                        kwargs['field_list']
+                    ).results)
+        if all and not do_not_download:
+            self._fields.update(self._request_object().results)
+
 
 
     def _request_object(self, field_list = None):
