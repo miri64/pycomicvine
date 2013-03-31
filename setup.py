@@ -18,17 +18,17 @@ class TestCommand(Command):
         pass
 
     def run(self):
-        import sys, subprocess
-        raise SystemExit(
-                subprocess.call([
-                        sys.executable,
-                        # Turn on deprecation warnings
-                        '-Wd',
-                        # Use module unittest
-                        '-m',
-                        'unittest',
-                        'tests'
-                    ])
+        import sys
+        import unittest
+        import logging
+        logging.basicConfig(stream=sys.stdout)
+        logging.getLogger("tests").setLevel(logging.DEBUG)
+        unittest.main(
+                'tests',
+                argv=sys.argv[:1],
+                verbosity=0,
+                failfast=True,
+                buffer=True
             )
 
 setup(
