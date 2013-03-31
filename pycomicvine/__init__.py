@@ -24,7 +24,7 @@ import urllib2
 from urllib import urlencode
 import simplejson as json
 import sys, re
-import datetime
+import datetime, logging
 import dateutil.parser
 
 _API_URL = "https://www.comicvine.com/api/"
@@ -198,6 +198,7 @@ class _Resource(object):
         params['format'] = 'json'
         params = urlencode(params)
         url = baseurl+"?"+params
+        logging.getLogger("urls").debug("Calling "+url)
         response_raw = json.loads(urllib2.urlopen(url).read())
         response = type._Response(**response_raw)
         if response.status_code != 1:
