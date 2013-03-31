@@ -2,6 +2,7 @@ import pycomicvine
 import unittest
 import random
 import datetime
+import logging
 
 MAX_TESTS = 3
 
@@ -20,6 +21,12 @@ class TestCharacterAttributes(unittest.TestCase):
             )
 
     def test_search(self):
+        logging.getLogger("tests").debug(
+                "%s.test_search: id = %d, name = %s",
+                type(self).__name__,
+                self.id,
+                self.name
+            )
         search = pycomicvine.Character.search(
                 self.name,
                 field_list=['id']
@@ -29,7 +36,13 @@ class TestCharacterAttributes(unittest.TestCase):
         self.assertEqual(search[0].id, self.id)
 
     def test_get_all_attributes(self):
-        character = pycomicvine.Character(self.id, True)
+        logging.getLogger("tests").debug(
+                "%s.test_get_all_attributes: id = %d, name = %s",
+                type(self).__name__,
+                self.id,
+                self.name
+            )
+        character = pycomicvine.Character(self.id, all=True)
 
         self.assertIsInstance(
                 character.api_detail_url, 
