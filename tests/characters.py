@@ -22,6 +22,10 @@ class TestCharacterAttributes(SingularResourceTestCase):
         character = self.get_sample(pycomicvine.Character)
         if character != None:
             self.assertIsInstance(
+                    character.aliases, 
+                    (type(None),list)
+                )
+            self.assertIsInstance(
                     character.api_detail_url, 
                     (type(None),basestring)
                 )
