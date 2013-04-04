@@ -42,12 +42,8 @@ class TestCharacterAttributes(unittest.TestCase):
                 field_list=['id','name'],
                 timeout=TIMEOUT
             )
-        self.id, self.name = random.choice(
-                [(c.id, c.name) for c in test_3times_then_fail(
-                        list,
-                        characters[:100]
-                    )]
-            )
+        rand_character = random.choice(characters)
+        self.id, self.name = rand_character.id, rand_character.name 
 
     def test_search(self):
         logging.getLogger("tests").debug(
