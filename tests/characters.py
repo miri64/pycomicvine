@@ -111,7 +111,7 @@ class TestCharacterAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     character.publisher,
-                    pycomicvine.Publisher
+                    (type(None),pycomicvine.Publisher)
                 )
             self.assertIsInstance(
                     character.real_name,
