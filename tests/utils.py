@@ -5,7 +5,7 @@ import unittest
 import urllib2
 
 TRIES=3
-TIMEOUT=10
+TIMEOUT=60
 
 class TimeoutError(Exception):
     pass
