@@ -403,7 +403,13 @@ class _ListResource(_Resource):
                         offset=i,
                         **self._args
                     )
-                self._results[i:self._limit+i] = response.results
+                for j in range(
+                        len(self._results),
+                        i+response.number_of_page_results
+                    ):
+                    self._results.append(None)
+                for j in range(i, i+response.number_of_page_results):
+                    self._results[j] = response.results[j-i]                   
         if type(self._results[index]) == list:
             for i in range(start, stop, step):
                 if type(self._results[i]) == dict:
