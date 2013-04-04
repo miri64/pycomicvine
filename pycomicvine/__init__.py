@@ -776,7 +776,9 @@ class Power(_SingularResource):
     site_detail_url = AttributeDefinition('keep')
 
 class Powers(_SortableListResource):
-    pass
+    @classmethod
+    def search(type, query, **kwargs):
+        return None
 
 class Promo(_SingularResource):
     api_detail_url = AttributeDefinition('keep')
