@@ -5,3 +5,4 @@ from tests.concepts import *
 from tests.issues import *
 from tests.locations import *
 from tests.movies import *
+from tests.objects import *
