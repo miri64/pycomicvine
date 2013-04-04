@@ -3,3 +3,4 @@ from tests.characters import *
 from tests.chats import *
 from tests.concepts import *
 from tests.issues import *
+from tests.locations import *
