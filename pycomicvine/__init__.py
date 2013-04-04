@@ -322,8 +322,13 @@ class _SingularResource(_Resource):
 
         name = _object_attribute('_fix_api_error')(name)
         try:
-            if name not in ['__dict__', '_request_object'] and \
-                    name not in self.__dict__:
+            if name not in [
+                    '__class__', 
+                    '__dict__', 
+                    '__member__', 
+                    '__methods__', 
+                    '_request_object'
+                ] and name not in self.__dict__:
                 if name in _object_attribute('_fields'):
                     return _parse_attribute(name)
                 else:
