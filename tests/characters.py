@@ -3,23 +3,50 @@ import unittest
 import random
 import datetime
 import logging
+from tests.utils import test_3times_then_fail
 
-MAX_TESTS = 3
+TIMEOUT=10
 
 pycomicvine.api_key = "476302e62d7e8f8f140182e36aebff2fe935514b"
 
 class TestCharactersList(unittest.TestCase):
     def test_get_id_and_name(self):
-        characters = pycomicvine.Characters(field_list=['name','id'])
+        characters = test_3times_then_fail(
+                pycomicvine.Characters,
+                field_list=['name','id'],
+                limit=1,
+                timeout=TIMEOUT
+            )
+        rand_offset = random.randint(1,len(characters)-100)
+        max_index = random.randint(
+                rand_offset,
+                min(len(characters), rand_offset+300)
+            )
+        characters = test_3times_then_fail(
+                pycomicvine.Characters,
+                field_list=['name','id'],
+                limit=100,
+                offset=rand_offset,
+                timeout=TIMEOUT
+            )
         self.assertNotEqual(len(characters), 0)
-        for c in characters:
+        for c in test_3times_then_fail(list,characters[
+                rand_offset:max_index
+            ]):
             self.assertIsInstance(c, pycomicvine.Character)
 
 class TestCharacterAttributes(unittest.TestCase):
     def setUp(self):
-        characters = pycomicvine.Characters(field_list=['id','name'])
+        characters = test_3times_then_fail(
+                pycomicvine.Characters,
+                field_list=['id','name'],
+                timeout=TIMEOUT
+            )
         self.id, self.name = random.choice(
-                [(c.id, c.name) for c in characters[:100]]
+                [(c.id, c.name) for c in test_3times_then_fail(
+                        list,
+                        characters[:100]
+                    )]
             )
 
     def test_search(self):
@@ -29,14 +56,19 @@ class TestCharacterAttributes(unittest.TestCase):
                 self.id,
                 self.name
             )
-        search = pycomicvine.Characters.search(
+        search = test_3times_then_fail(
+                pycomicvine.Characters.search,
                 self.name,
-                field_list=['id']
+                field_list=['id'],
+                timeout=TIMEOUT
             )
         self.assertNotEqual(len(search),0)
-        for c in search:
+        for c in test_3times_then_fail(list,search):
             self.assertIsInstance(c, pycomicvine.Character)
-        self.assertIn(self.id, [c.id for c in search])
+        self.assertIn(
+                self.id, 
+                [c.id for c in test_3times_then_fail(list,search)]
+            )
 
     def test_get_all_attributes(self):
         logging.getLogger("tests").debug(
@@ -45,7 +77,12 @@ class TestCharacterAttributes(unittest.TestCase):
                 self.id,
                 self.name
             )
-        character = pycomicvine.Character(self.id, all=True)
+        character = test_3times_then_fail(
+                pycomicvine.Character,
+                self.id, 
+                all=True,
+                timeout=TIMEOUT
+            )
 
         self.assertIsInstance(
                 character.api_detail_url, 
