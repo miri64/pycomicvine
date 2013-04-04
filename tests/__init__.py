@@ -8,3 +8,4 @@ from tests.movies import *
 from tests.objects import *
 from tests.people import *
 from tests.powers import *
+from tests.story_arcs import *
