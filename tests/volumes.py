@@ -101,3 +101,5 @@ class TestVolumeAttributes(SingularResourceTestCase):
                     volume.start_year,
                     (type(None),int)
                 )
+            with self.assertRaises(AttributeError):
+                volume.team_credits # not in API despite documentation
