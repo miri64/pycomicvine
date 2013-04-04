@@ -953,7 +953,9 @@ class VideoType(_SingularResource):
     site_detail_url = AttributeDefinition('keep')
 
 class VideoTypes(_SortableListResource):
-    pass
+    @classmethod
+    def search(type, query, **kwargs):
+        return None
 
 class Volume(_SingularResource):
     aliases = AttributeDefinition('keep')
