@@ -127,6 +127,8 @@ class AttributeDefinition(object):
             elif issubclass(target, _ListResource):
                 if isinstance(value, list):
                     value = target(value)
+                elif value == None:
+                    value = target([])
                 else:
                     return value
             else:
