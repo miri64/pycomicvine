@@ -722,7 +722,9 @@ class Origin(_SingularResource):
     site_detail_url = AttributeDefinition('keep')
 
 class Origins(_SortableListResource):
-    pass
+    @classmethod
+    def search(type, query, **kwargs):
+        return None
 
 class Person(_SingularResource):
     aliases = AttributeDefinition('keep')
