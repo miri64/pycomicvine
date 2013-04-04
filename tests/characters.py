@@ -162,7 +162,7 @@ class TestCharacterAttributes(unittest.TestCase):
             )
         self.assertIsInstance(
                 character.origin,
-                pycomicvine.Origin
+                (type(None),pycomicvine.Origin)
             )
         self.assertIsInstance(
                 character.powers,

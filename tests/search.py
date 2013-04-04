@@ -21,5 +21,5 @@ class TestSearch(unittest.TestCase):
                 field_list=["id"]
             )
         self.assertNotEqual(len(search),0)
-        self.assertEqual(18166, [s.id for s in search])
+        self.assertIn(18166, [s.id for s in search])
 
