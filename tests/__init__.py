@@ -7,3 +7,4 @@ from tests.locations import *
 from tests.movies import *
 from tests.objects import *
 from tests.people import *
+from tests.powers import *
