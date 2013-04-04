@@ -122,7 +122,7 @@ class TestCharacterAttributes(unittest.TestCase):
             )
         self.assertIsInstance(
                 character.first_appeared_in_issue,
-                pycomicvine.Issue
+                (type(None),pycomicvine.Issue)
             )
         self.assertIsInstance(
                 character.gender,
