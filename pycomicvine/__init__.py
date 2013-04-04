@@ -197,11 +197,11 @@ class _Resource(object):
                     "([a-z_]*,)*id(,[a-z_]*)*", params['field_list']
                 ) == None:
                 params['field_list'] = "id," + params['field_list']
+        timeout = None
         if 'timeout' in params:
-            timeout = int(params['timeout'])
+            if timeout != None:
+                timeout = int(params['timeout'])
             del params['timeout']
-        else:
-            timeout = None
         params['format'] = 'json'
         params = urlencode(params)
         url = baseurl+"?"+params
