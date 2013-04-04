@@ -10,3 +10,4 @@ from tests.people import *
 from tests.powers import *
 from tests.story_arcs import *
 from tests.teams import *
+from tests.videos import *
