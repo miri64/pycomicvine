@@ -62,7 +62,10 @@ class SingularResourceTestCase(unittest.TestCase):
                 timeout=TIMEOUT
             )
         if len(instances) > 0:
-            rand_instance = random.choice(instances)
+            rand_instance = test_3times_then_fail(
+                    random.choice,
+                    instances
+                )
             self.id, self.name = rand_instance.id, rand_instance.name
         else:
             self.id, self.name = None, None
