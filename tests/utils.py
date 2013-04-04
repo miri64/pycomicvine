@@ -37,7 +37,10 @@ class ListResourceTestCase(unittest.TestCase):
                     timeout=TIMEOUT
                 )
             if len(instances) > 0:
-                rand_offset = random.randint(1,len(instances)-100)
+                if len(instances) > 100:
+                    rand_offset = random.randint(1,len(instances)-100)
+                else:
+                    rand_offset = 1
                 max_index = random.randint(
                         rand_offset,
                         min(len(instances), rand_offset+300)
