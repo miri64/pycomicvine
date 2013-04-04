@@ -195,11 +195,22 @@ class _Resource(object):
                     "([a-z_]*,)*id(,[a-z_]*)*", params['field_list']
                 ) == None:
                 params['field_list'] = "id," + params['field_list']
+        if 'timeout' in params:
+            timeout = int(params['timeout'])
+            del params['timeout']
+        else:
+            timeout = None
         params['format'] = 'json'
         params = urlencode(params)
         url = baseurl+"?"+params
         logging.getLogger("urls").debug("Calling "+url)
-        response_raw = json.loads(urllib2.urlopen(url).read())
+        if timeout == None:
+            response_raw = json.loads(urllib2.urlopen(url).read())
+        else:
+            response_raw = json.loads(urllib2.urlopen(
+                    url, 
+                    timeout=timeout
+                ).read())
         response = type._Response(**response_raw)
         if response.status_code != 1:
             raise _EXCEPTIONS.get(response.status_code,UnknownStatusError)(
@@ -274,19 +285,22 @@ class _SingularResource(_Resource):
                         kwargs['field_list']
                     ).results)
         if all and not do_not_download:
-            self._fields.update(self._request_object().results)
+            if 'timeout' in kwargs:
+                self._fields.update(self._request_object(
+                        timeout=kwargs['timeout']
+                    ).results)
 
-
-
-    def _request_object(self, field_list = None):
+    def _request_object(self, field_list = None, timeout = None):
         if field_list == None:
             return type(self)._request(
                     self._detail_url,
+                    timeout=timeout
                 )
         else:
             return type(self)._request(
                     self._detail_url,
-                    field_list=field_list
+                    field_list=field_list,
+                    timeout=timeout
                 )
 
     def __getattribute__(self, name):
