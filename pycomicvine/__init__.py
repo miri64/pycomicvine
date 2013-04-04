@@ -543,7 +543,9 @@ class Chat(_SingularResource):
     title = AttributeDefinition('keep')
 
 class Chats(_SortableListResource):
-    pass
+    @classmethod
+    def search(type, query, **kwargs):
+        return None
 
 class Concept(_SingularResource):
     aliases = AttributeDefinition('keep')

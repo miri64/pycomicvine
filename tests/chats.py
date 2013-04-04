@@ -15,9 +15,6 @@ class TestChatAttributes(SingularResourceTestCase):
     def setUp(self):
         self.get_random_instance(pycomicvine.Chats)
 
-    def test_search(self):
-        self.search_test(pycomicvine.Chats, pycomicvine.Chat)
-
     def test_get_all_attributes(self):
         chat = self.get_sample(pycomicvine.Chat)
         if chat != None:
