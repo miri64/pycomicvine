@@ -186,8 +186,8 @@ the [API](https://www.comicvine.com/api/documentation#toc-0-3):
 <td align="left">singular resource</td>
 </tr>
 <tr class="even">
-<td align="left">```Persons```</td>
-<td align="left">```/persons```</td>
+<td align="left">```People```</td>
+<td align="left">```/people```</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="odd">
