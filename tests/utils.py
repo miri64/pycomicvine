@@ -33,7 +33,6 @@ class ListResourceTestCase(unittest.TestCase):
             instances = test_3times_then_fail(
                     cls,
                     field_list=['name','id'],
-                    limit=1,
                     timeout=TIMEOUT
                 )
             if len(instances) > 0:
