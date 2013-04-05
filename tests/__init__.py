@@ -1,4 +1,3 @@
-from search import *
 from tests.characters import *
 from tests.chats import *
 from tests.concepts import *
@@ -9,6 +8,7 @@ from tests.objects import *
 from tests.people import *
 from tests.promos import *
 from tests.powers import *
+from tests.search import *
 from tests.story_arcs import *
 from tests.teams import *
 from tests.videos import *
