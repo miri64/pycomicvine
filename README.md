@@ -285,8 +285,8 @@ the [API](https://www.comicvine.com/api/documentation#toc-0-3):
 
 ### Type conversion
 If you do not like the way we convert the objects, you can always 
-redefine it. *pycomicvine* gives you the class AttributeDefinition
-for that
+redefine it. *pycomicvine* gives you the class ```AttributeDefinition```
+for this:
 
 ```python
 >>> pycomicvine.Character.gender = pycomicvine.AttributeDefinition('keep')
