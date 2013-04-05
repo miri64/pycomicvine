@@ -418,9 +418,15 @@ class _ListResource(_Resource):
                 for j in range(i, i+response.number_of_page_results):
                     self._results[j] = response.results[j-i]                   
         if type(self._results[index]) == list:
+            if type(index) != slice and len(self._results[index]) == 0:
+                self._results[index] = None
+                return None
             for i in range(start, stop, step):
                 if type(self._results[i]) == dict:
                     self._parse_result(i)
+                elif type(self._results[i]) == list and \
+                        len(self._results[i]) == 0:
+                    self._results[i] = None
         elif type(self._results[index]) == dict:
             self._parse_result(index)
         return self._results[index]
