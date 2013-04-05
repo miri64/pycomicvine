@@ -7,7 +7,7 @@ A python wrapper for comicvine.com
 ## Installation
 Using setuptools you can install *pycomicvine* as follows:
 
-    python setup.py
+    python setup.py install
 
 Dependencies:
 
@@ -101,183 +101,183 @@ the [API](https://www.comicvine.com/api/documentation#toc-0-3):
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">```Character```</td>
-<td align="left">```/character```</td>
+<td align="left">Character</td>
+<td align="left">/character</td>
 <td align="left">singular resource</td>
 </tr>
 <tr class="even">
-<td align="left">```Characters```</td>
-<td align="left">```/characters```</td>
+<td align="left">Characters</td>
+<td align="left">/characters</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="odd">
-<td align="left">```Chat```</td>
-<td align="left">```/chat```</td>
+<td align="left">Chat</td>
+<td align="left">/chat</td>
 <td align="left">singular resource</td>
 </tr>
 <tr class="even">
-<td align="left">```Chats```</td>
-<td align="left">```/chats```</td>
+<td align="left">Chats</td>
+<td align="left">/chats</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="odd">
-<td align="left">```Concept```</td>
-<td align="left">```/concept```</td>
+<td align="left">Concept</td>
+<td align="left">/concept</td>
 <td align="left">singular resource</td>
 </tr>
 <tr class="even">
-<td align="left">```Concepts```</td>
-<td align="left">```/concepts```</td>
+<td align="left">Concepts</td>
+<td align="left">/concepts</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="odd">
-<td align="left">```Issue```</td>
-<td align="left">```/issue```</td>
+<td align="left">Issue</td>
+<td align="left">/issue</td>
 <td align="left">singular resource</td>
 </tr>
 <tr class="even">
-<td align="left">```Issues```</td>
-<td align="left">```/issues```</td>
+<td align="left">Issues</td>
+<td align="left">/issues</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="odd">
-<td align="left">```Location```</td>
-<td align="left">```/location```</td>
+<td align="left">Location</td>
+<td align="left">/location</td>
 <td align="left">singular resource</td>
 </tr>
 <tr class="even">
-<td align="left">```Locations```</td>
-<td align="left">```/locations```</td>
+<td align="left">Locations</td>
+<td align="left">/locations</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="odd">
-<td align="left">```Movie```</td>
-<td align="left">```/movie```</td>
+<td align="left">Movie</td>
+<td align="left">/movie</td>
 <td align="left">singular resource</td>
 </tr>
 <tr class="even">
-<td align="left">```Movies```</td>
-<td align="left">```/movies```</td>
+<td align="left">Movies</td>
+<td align="left">/movies</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="odd">
-<td align="left">```Object```</td>
-<td align="left">```/object```</td>
+<td align="left">Object</td>
+<td align="left">/object</td>
 <td align="left">singular resource</td>
 </tr>
 <tr class="even">
-<td align="left">```Objects```</td>
-<td align="left">```/objects```</td>
+<td align="left">Objects</td>
+<td align="left">/objects</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="odd">
-<td align="left">```Origin```</td>
-<td align="left">```/origin```</td>
+<td align="left">Origin</td>
+<td align="left">/origin</td>
 <td align="left">singular resource</td>
 </tr>
 <tr class="even">
-<td align="left">```Origins```</td>
-<td align="left">```/origins```</td>
+<td align="left">Origins</td>
+<td align="left">/origins</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="odd">
-<td align="left">```Person```</td>
-<td align="left">```/person```</td>
+<td align="left">Person</td>
+<td align="left">/person</td>
 <td align="left">singular resource</td>
 </tr>
 <tr class="even">
-<td align="left">```People```</td>
-<td align="left">```/people```</td>
+<td align="left">People</td>
+<td align="left">/people</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="odd">
-<td align="left">```Power```</td>
-<td align="left">```/power```</td>
+<td align="left">Power</td>
+<td align="left">/power</td>
 <td align="left">singular resource</td>
 </tr>
 <tr class="even">
-<td align="left">```Powers```</td>
-<td align="left">```/powers```</td>
+<td align="left">Powers</td>
+<td align="left">/powers</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="odd">
-<td align="left">```Promo```</td>
-<td align="left">```/promo```</td>
+<td align="left">Promo</td>
+<td align="left">/promo</td>
 <td align="left">singular resource</td>
 </tr>
 <tr class="even">
-<td align="left">```Promos```</td>
-<td align="left">```/promos```</td>
+<td align="left">Promos</td>
+<td align="left">/promos</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="odd">
-<td align="left">```Publisher```</td>
-<td align="left">```/publisher```</td>
+<td align="left">Publisher</td>
+<td align="left">/publisher</td>
 <td align="left">singular resource</td>
 </tr>
 <tr class="even">
-<td align="left">```Publishers```</td>
-<td align="left">```/publishers```</td>
+<td align="left">Publishers</td>
+<td align="left">/publishers</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="odd">
-<td align="left">```Search```</td>
-<td align="left">```/search```</td>
+<td align="left">Search</td>
+<td align="left">/search</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="even">
-<td align="left">```StoryArc```</td>
-<td align="left">```/story_arc```</td>
+<td align="left">StoryArc</td>
+<td align="left">/story_arc</td>
 <td align="left">singular resource</td>
 </tr>
 <tr class="odd">
-<td align="left">```StoryArcs```</td>
-<td align="left">```/story_arcs```</td>
+<td align="left">StoryArcs</td>
+<td align="left">/story_arcs</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="even">
-<td align="left">```Team```</td>
-<td align="left">```/team```</td>
+<td align="left">Team</td>
+<td align="left">/team</td>
 <td align="left">singular resource</td>
 </tr>
 <tr class="odd">
-<td align="left">```Teams```</td>
-<td align="left">```/teams```</td>
+<td align="left">Teams</td>
+<td align="left">/teams</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="even">
-<td align="left">```Types```</td>
-<td align="left">```/types```</td>
-<td align="left">list resource</td>
-</tr>
-<tr class="odd">
-<td align="left">```Video```</td>
-<td align="left">```/video```</td>
-<td align="left">singular resource</td>
-</tr>
-<tr class="even">
-<td align="left">```Videos```</td>
-<td align="left">```/videos```</td>
+<td align="left">Types</td>
+<td align="left">/types</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="odd">
-<td align="left">```VideoType```</td>
-<td align="left">```/video_type```</td>
+<td align="left">Video</td>
+<td align="left">/video</td>
 <td align="left">singular resource</td>
 </tr>
 <tr class="even">
-<td align="left">```VideoTypes```</td>
-<td align="left">```/video_types```</td>
+<td align="left">Videos</td>
+<td align="left">/videos</td>
 <td align="left">list resource</td>
 </tr>
 <tr class="odd">
-<td align="left">```Volume```</td>
-<td align="left">```/volume```</td>
+<td align="left">VideoType</td>
+<td align="left">/video_type</td>
 <td align="left">singular resource</td>
 </tr>
 <tr class="even">
-<td align="left">```Volumes```</td>
-<td align="left">```/volumes```</td>
+<td align="left">VideoTypes</td>
+<td align="left">/video_types</td>
+<td align="left">list resource</td>
+</tr>
+<tr class="odd">
+<td align="left">Volume</td>
+<td align="left">/volume</td>
+<td align="left">singular resource</td>
+</tr>
+<tr class="even">
+<td align="left">Volumes</td>
+<td align="left">/volumes</td>
 <td align="left">list resource</td>
 </tr>
 </tbody>
