@@ -7,6 +7,7 @@ from tests.locations import *
 from tests.movies import *
 from tests.objects import *
 from tests.people import *
+from tests.promos import *
 from tests.powers import *
 from tests.story_arcs import *
 from tests.teams import *
