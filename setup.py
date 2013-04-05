@@ -2,7 +2,7 @@
 from setuptools import setup
 from distutils.core import Command
 
-VERSION = '0.8'
+VERSION = '0.9'
 DESCRIPTION = "A wrapper for comicvine.com"
 
 with open('README.md', 'r') as f:
