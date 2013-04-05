@@ -53,8 +53,8 @@ Objects[<Object: Mjolnir [40971]>,<Object: MJOLNIR Powered Assault Armor [56824]
 If you know the ID of a resource you can download it directly:
 
 ```python
->>> pycomicvine.Character(20096, all=True)
-<Character: Buffy [20096]>
+>>> pycomicvine.Character(1807, all=True)
+<Character: Superman [1807]>
 ```
 
 The additional parameter ```all``` assures that all fields of the
@@ -282,6 +282,31 @@ the [API](https://www.comicvine.com/api/documentation#toc-0-3):
 </tr>
 </tbody>
 </table>
+
+### Type conversion
+If you do not like the way we convert the objects, you can always 
+redefine it. *pycomicvine* gives you the class AttributeDefinition
+for that
+
+```python
+>>> pycomicvine.Character.gender = pycomicvine.AttributeDefinition('keep')
+>>> pycomicvine.Character(20096).gender
+2
+```
+
+```'keep'``` is here a keyword to keep the type the JSON gives us.
+Other possible parameters are the names of our ressource type classes
+as string and ```int``` and ```datetime.datetime``` 
+(as there actual types) for conversion into that types. If that is
+not enough for you, you even can give a function as parameter, that
+takes a parameter and gives back one return value. You have to define
+the original type then though. For example:
+
+```python
+>>> pycomicvine.Concept.name = pycomicvine.AttributeDefinition(lambda v: "Just another universe" if "universe" in v.lower() else v, start_type=basestring)
+>>> pycomicvine.Concept(56089).name
+'Just another universe'
+```
 
 ## Contribute
 You can contribute by submitting issue tickets here on GitHub, 
