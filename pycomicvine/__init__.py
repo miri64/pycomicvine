@@ -798,7 +798,9 @@ class Promo(_SingularResource):
     name = AttributeDefinition('keep')
 
 class Promos(_SortableListResource):
-    pass
+    @classmethod
+    def search(type, query, **kwargs):
+        return None
 
 class Publisher(_SingularResource):
     aliases = AttributeDefinition('keep')
