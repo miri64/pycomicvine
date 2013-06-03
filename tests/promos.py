@@ -20,7 +20,7 @@ class TestPromosList(ListResourceTestCase):
                     self.assertIsInstance(c, pycomicvine.Promo)
             # there is one odd empty list in the results of
             # /promos. Just checking if it will stay there
-            self.assertEquals(assertionFails, 1)
+            self.assertLessEqual(assertionFails, 1)
         except TimeoutError,e:
             logging.getLogger("tests").debug(e)
 
