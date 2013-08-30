@@ -87,7 +87,7 @@ class TestMovieAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     movie.rating,
-                    (type(None),int)
+                    (type(None),basestring)
                 )
             self.assertIsInstance(
                     movie.release_date,

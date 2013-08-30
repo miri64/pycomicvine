@@ -650,7 +650,7 @@ class Movie(_SingularResource):
     locations = AttributeDefinition('Locations')
     name = AttributeDefinition('keep')
     producers = AttributeDefinition('People')
-    rating = AttributeDefinition(int)
+    rating = AttributeDefinition('keep')
     release_date = AttributeDefinition(datetime.datetime)
     runtime = AttributeDefinition(int)
     site_detail_url = AttributeDefinition('keep')
