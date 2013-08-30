@@ -4,7 +4,7 @@ from distutils.core import Command
 from sys import stdout, version_info
 import logging
 
-VERSION = '0.9'
+VERSION = '1.0'
 DESCRIPTION = "A wrapper for comicvine.com"
 
 with open('README.md', 'r') as f:
@@ -15,10 +15,6 @@ if version_info >= (3,):
     extra['use_2to3'] = True
     extra['convert_2to3_doctests'] = ['README.md']
 
-if version_info >= (3,2,) and version_info < (3,3,):
-    extra['install_requires'] = ['python-dateutil >= 2.0']
-else:
-    extra['install_requires'] = ['simplejson', 'python-dateutil >= 2.0']
 
 logging.basicConfig(stream=stdout)
 logging.getLogger("tests").setLevel(logging.DEBUG)
@@ -34,5 +30,6 @@ setup(
         packages=['pycomicvine', 'pycomicvine.tests'],
         license="MIT License",
         test_suite='pycomicvine.tests',
+        install_requires=['simplejson', 'python-dateutil >= 2.0'],
         **extra
     )
