@@ -17,13 +17,17 @@ def test_3times_then_fail(func, *args, **kwargs):
             return func(*args, **kwargs)
         except urllib2.HTTPError, e:
             if e.code == 500:
-                log.debug("Internal server error (func=%s, try=%d)" % (repr(func), i))
+                log.debug("Internal server error (func=%s%s, kwargs=%s, try=%d)" %
+                        (repr(func), str(args), str(kwargs), i)
+                    )
                 if i == TRIES-1:
                     raise TimeoutError('To many HTTP-Errors')
         except ssl.SSLError, e:
             print e.__dict__
             if e.msg == "The read operation timed out":
-                log.debug("Timeout error  (func=%s, try=%d)" % (repr(func), i))
+                log.debug("Timeout error (func=%s%s, kwargs=%s, try=%d)" %
+                        (repr(func), str(args), str(kwargs), i)
+                    )
                 if i == TRIES-1:
                     raise TimeoutError('To many HTTP-Timeouts')
 
@@ -88,7 +92,7 @@ class SingularResourceTestCase(unittest.TestCase):
                         rand_instance.name
         except TimeoutError,e:
             logging.getLogger("tests").debug(e)
-    
+
     def search_test(self, cls, test_against):
         try:
             if self.id != None:
@@ -108,7 +112,7 @@ class SingularResourceTestCase(unittest.TestCase):
                 for c in test_3times_then_fail(list,search):
                     self.assertIsInstance(c, test_against)
                 self.assertIn(
-                        self.id, 
+                        self.id,
                         [c.id for c in test_3times_then_fail(list,search)]
                     )
             else:
@@ -130,7 +134,7 @@ class SingularResourceTestCase(unittest.TestCase):
                     )
                 return test_3times_then_fail(
                         cls,
-                        self.id, 
+                        self.id,
                         all=True,
                         timeout=TIMEOUT
                     )

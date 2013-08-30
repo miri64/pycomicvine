@@ -171,7 +171,7 @@ class _Resource(object):
         params['format'] = 'json'
         params = urlencode(params)
         url = baseurl+"?"+params
-        logging.getLogger("urls").debug("Calling "+url)
+        logging.getLogger(__name__).debug("Calling "+url)
         if timeout == None:
             response_raw = json.loads(urllib2.urlopen(url).read())
         else:
