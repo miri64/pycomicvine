@@ -389,6 +389,9 @@ class _ListResource(_Resource):
                         offset=i,
                         **self._args
                     )
+                if response.number_of_page_results != len(response.results):
+                    logging.getLogger(__name__).warning("number of page results wrong (%d != %d) ",
+                            response.number_of_page_results, len(response.results))
                 if isinstance(self, Search):
                     end_result = response.offset + response.number_of_page_results
                     if len(self._results) < end_result:
