@@ -1,6 +1,6 @@
 import pycomicvine
 import unittest
-from tests.utils import test_3times_then_fail
+from tests.utils import test_3times_then_fail, TimeoutError
 
 api_key = "476302e62d7e8f8f140182e36aebff2fe935514b"
 
