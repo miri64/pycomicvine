@@ -15,6 +15,11 @@ if version_info >= (3,):
     extra['use_2to3'] = True
     extra['convert_2to3_doctests'] = ['README.md']
 
+if version_info >= (3,2,) and version_info < (3,3,):
+    extra['install_requires'] = ['python-dateutil >= 2.0']
+else:
+    extra['install_requires'] = ['simplejson', 'python-dateutil >= 2.0']
+
 logging.basicConfig(stream=stdout)
 logging.getLogger("tests").setLevel(logging.DEBUG)
 
@@ -27,7 +32,6 @@ setup(
         author_email='authmillenon@gmail.com',
         url='http://www.github.com/authmillenon/pycomicvine/',
         packages=['pycomicvine', 'pycomicvine.tests'],
-        install_requires=['simplejson','python-dateutil >= 2.0'],
         license="MIT License",
         test_suite='pycomicvine.tests',
         **extra
