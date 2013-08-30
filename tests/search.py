@@ -13,7 +13,7 @@ class TestSearch(unittest.TestCase):
                     query="Angel"
                 )
             for v in test_3times_then_fail(list, search):
-                self.assertIsInstance(v, pycomicvine.Volume)
+                self.assertIsInstance(v, (pycomicvine.Volume, type(None)))
         except TimeoutError,e:
             logging.getLogger("tests").debug(e)
 
@@ -25,6 +25,6 @@ class TestSearch(unittest.TestCase):
                     field_list=["id"]
                 )
             self.assertNotEqual(len(search),0)
-            self.assertIn(18166, [s.id for s in search])
+            self.assertIn(18166, [s.id if s != None else 0 for s in search])
         except TimeoutError,e:
             logging.getLogger("tests").debug(e)
