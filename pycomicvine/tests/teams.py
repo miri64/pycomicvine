@@ -1,6 +1,6 @@
 import pycomicvine
 import datetime
-from tests.utils import *
+from pycomicvine.tests.utils import *
 
 pycomicvine.api_key = "476302e62d7e8f8f140182e36aebff2fe935514b"
 

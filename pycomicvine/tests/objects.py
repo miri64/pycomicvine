@@ -1,91 +1,91 @@
 import pycomicvine
 import datetime
-from tests.utils import *
+from pycomicvine.tests.utils import *
 
 pycomicvine.api_key = "476302e62d7e8f8f140182e36aebff2fe935514b"
 
-class TestLocationsList(ListResourceTestCase):
+class TestObjectsList(ListResourceTestCase):
     def test_get_id_and_name(self):
         self.get_id_and_name_test(
-                pycomicvine.Locations,
-                pycomicvine.Location
+                pycomicvine.Objects,
+                pycomicvine.Object
             )
 
-class TestLocationAttributes(SingularResourceTestCase):
+class TestObjectAttributes(SingularResourceTestCase):
     def setUp(self):
-        self.get_random_instance(pycomicvine.Locations)
+        self.get_random_instance(pycomicvine.Objects)
 
     def test_search(self):
-        self.search_test(pycomicvine.Locations, pycomicvine.Location)
+        self.search_test(pycomicvine.Objects, pycomicvine.Object)
 
     def test_get_all_attributes(self):
-        location = self.get_sample(pycomicvine.Location)
-        if location != None:
+        object = self.get_sample(pycomicvine.Object)
+        if object != None:
             self.assertIsInstance(
-                    location.aliases, 
+                    object.aliases, 
                     (type(None),list)
                 )
             self.assertIsInstance(
-                    location.api_detail_url, 
+                    object.api_detail_url, 
                     (type(None),basestring)
                 )
             self.assertIsInstance(
-                    location.count_of_issue_appearances,
+                    object.count_of_issue_appearances,
                     int
                 )
             self.assertIsInstance(
-                    location.date_added,
+                    object.date_added,
                     datetime.datetime
                 )
             self.assertIsInstance(
-                    location.date_last_updated,
+                    object.date_last_updated,
                     datetime.datetime
                 )
             self.assertIsInstance(
-                    location.deck,
+                    object.deck,
                     (type(None),basestring)
                 )
             self.assertIsInstance(
-                    location.description,
+                    object.description,
                     (type(None),basestring)
                 )
             self.assertIsInstance(
-                    location.first_appeared_in_issue,
+                    object.first_appeared_in_issue,
                     (type(None),pycomicvine.Issue)
                 )
             self.assertIsInstance(
-                    location.id,
+                    object.id,
                     int 
                 )
             self.assertIsInstance(
-                    location.image,
+                    object.image,
                     (type(None),dict)
                 )
             self.assertIsInstance(
-                    location.issue_credits,
+                    object.issue_credits,
                     pycomicvine.Issues
                 )
             self.assertIsInstance(
-                    location.movies,
+                    object.movies,
                     pycomicvine.Movies
                 )
             self.assertIsInstance(
-                    location.name,
+                    object.name,
                     (type(None),basestring)
                 )
             self.assertIsInstance(
-                    location.site_detail_url,
+                    object.site_detail_url,
                     (type(None),basestring)
                 )
             self.assertIsInstance(
-                    location.start_year,
+                    object.start_year,
                     (type(None),int)
                 )
             self.assertIsInstance(
-                    location.story_arc_credits,
+                    object.story_arc_credits,
                     pycomicvine.StoryArcs
                 )
             self.assertIsInstance(
-                    location.volume_credits,
+                    object.volume_credits,
                     pycomicvine.Volumes
                 )

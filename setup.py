@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 from setuptools import setup
 from distutils.core import Command
+from sys import stdout, version_info
+import logging
 
 VERSION = '0.9'
 DESCRIPTION = "A wrapper for comicvine.com"
@@ -8,28 +10,13 @@ DESCRIPTION = "A wrapper for comicvine.com"
 with open('README.md', 'r') as f:
    LONG_DESCRIPTION = f.read()
 
-class TestCommand(Command):
-    user_options = []
+extra = {}
+if version_info >= (3,):
+    extra['use_2to3'] = True
+    extra['convert_2to3_doctests'] = ['README.md']
 
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        import sys
-        import unittest
-        import logging
-        logging.basicConfig(stream=sys.stdout)
-        logging.getLogger("tests").setLevel(logging.DEBUG)
-        unittest.main(
-                'tests',
-                argv=sys.argv[:1],
-                verbosity=0,
-                failfast=True,
-                buffer=True
-            )
+logging.basicConfig(stream=stdout)
+logging.getLogger("tests").setLevel(logging.DEBUG)
 
 setup(
         name='PyComicVine',
@@ -39,8 +26,9 @@ setup(
         author='Martin Lenders',
         author_email='authmillenon@gmail.com',
         url='http://www.github.com/authmillenon/pycomicvine/',
-        packages=['pycomicvine'],
+        packages=['pycomicvine', 'pycomicvine.tests'],
         install_requires=['simplejson','python-dateutil >= 2.0'],
         license="MIT License",
-        cmdclass={'test': TestCommand}
+        test_suite='pycomicvine.tests',
+        **extra
     )
