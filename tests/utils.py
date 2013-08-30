@@ -17,13 +17,13 @@ def test_3times_then_fail(func, *args, **kwargs):
             return func(*args, **kwargs)
         except urllib2.HTTPError, e:
             if e.code == 500:
-                log.debug("Internal server error (try=%d)" % i)
+                log.debug("Internal server error (func=%s, try=%d)" % (repr(func), i))
                 if i == TRIES-1:
                     raise TimeoutError('To many HTTP-Errors')
         except ssl.SSLError, e:
             print e.__dict__
             if e.msg == "The read operation timed out":
-                log.debug("Timeout error (try=%d)" % i)
+                log.debug("Timeout error  (func=%s, try=%d)" % (repr(func), i))
                 if i == TRIES-1:
                     raise TimeoutError('To many HTTP-Timeouts')
 
@@ -44,6 +44,12 @@ class ListResourceTestCase(unittest.TestCase):
                         rand_offset,
                         min(len(instances), rand_offset+300)
                     )
+                logging.getLogger("tests").debug(
+                        "%s.test_get_id_and_name: rand_offset = %d, max_index = %d",
+                        type(self).__name__,
+                        rand_offset,
+                        max_index
+                    )
                 instances = test_3times_then_fail(
                         cls,
                         field_list=['name','id'],
@@ -56,6 +62,11 @@ class ListResourceTestCase(unittest.TestCase):
                         rand_offset:max_index
                     ]):
                     self.assertIsInstance(c, test_against)
+            else:
+                logging.getLogger("tests").debug(
+                        "%s.test_get_id_and_name: no instances => no test",
+                        type(self).__name__
+                    )
         except TimeoutError,e:
             logging.getLogger("tests").debug(e)
 
@@ -68,7 +79,7 @@ class SingularResourceTestCase(unittest.TestCase):
                     field_list=['id','name'],
                     timeout=TIMEOUT
                 )
-            if len(instances) > 0:
+            if instances != None and len(instances) > 0:
                 rand_instance = test_3times_then_fail(
                         random.choice,
                         instances
@@ -100,6 +111,11 @@ class SingularResourceTestCase(unittest.TestCase):
                         self.id, 
                         [c.id for c in test_3times_then_fail(list,search)]
                     )
+            else:
+                logging.getLogger("tests").debug(
+                        "%s.test_search: id = None => no test",
+                        type(self).__name__
+                    )
         except TimeoutError,e:
             logging.getLogger("tests").debug(e)
 
@@ -117,6 +133,11 @@ class SingularResourceTestCase(unittest.TestCase):
                         self.id, 
                         all=True,
                         timeout=TIMEOUT
+                    )
+            else:
+                logging.getLogger("tests").debug(
+                        "%s.test_get_all_attributes: id = None => no test",
+                        type(self).__name__
                     )
         except TimeoutError,e:
             logging.getLogger("tests").debug(e)
