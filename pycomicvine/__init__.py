@@ -27,6 +27,7 @@ import sys, re
 import datetime, logging
 import dateutil.parser
 import pycomicvine.error
+import collections
 
 _API_URL = "https://www.comicvine.com/api/"
 
@@ -34,15 +35,15 @@ _cached_resources = {}
 
 api_key = ""
 
+def str_to_datetime(value):
+    try:
+        return dateutil.parser.parse(value)
+    except ValueError:
+        return value
+
 
 class AttributeDefinition(object):
     def __init__(self, target, start_type = None):
-        def _to_datetime(value):
-            try:
-                return dateutil.parser.parse(value)
-            except ValueError:
-                return value
-
         def _to_int(value):
             try:
                 new_value = value.replace(',','')
@@ -52,13 +53,15 @@ class AttributeDefinition(object):
 
         self._start_type = start_type
         if target == datetime.datetime or target == 'datetime':
-            self._target = _to_datetime
+            self._target = str_to_datetime
             self._target_name = 'datetime'
         elif target == int or target == 'int':
             self._target = _to_int
             self._target_name = 'int'
         elif callable(target):
-            if not isinstance(start_type, type):
+            if not isinstance(start_type, type) and \
+                not (isinstance(start_type, collections.Iterable) and
+                     all(isinstance(t, type) for t in start_type)):
                 raise pycomicvine.error.IllegalArquementException(
                         "A start type needs to be defined"
                     )
@@ -709,7 +712,12 @@ class Person(_SingularResource):
     created_characters = AttributeDefinition('Characters')
     date_added = AttributeDefinition(datetime.datetime)
     date_last_updated = AttributeDefinition(datetime.datetime)
-    death = AttributeDefinition(datetime.datetime)
+    death = AttributeDefinition(
+            lambda value:   str_to_datetime(value.get('date')) if 
+                                isinstance(value, dict) else
+                            str_to_datetime(value),
+            (dict, basestring)
+        )
     deck = AttributeDefinition('keep')
     description = AttributeDefinition('keep')
     email = AttributeDefinition('keep')
