@@ -336,12 +336,13 @@ class _SingularResource(_Resource):
 class _ListResource(_Resource):
     def _request_object(self, **params):
         type(self)._ensure_resource_url()
-        if 'offset' in params:
-            limit = params['limit'] or self._limit
-            params['page'] = params['offset']/params['limit'] + 1
-            del params['offset']
-        elif 'page' not in params:
-            params['page'] = 1
+        if isinstance(self, Search):
+            if 'offset' in params:
+                limit = params['limit'] or self._limit
+                params['page'] = params['offset']/params['limit'] + 1
+                del params['offset']
+            elif 'page' not in params:
+                params['page'] = 1
         return type(self)._request(type(self)._resource_url, **params)
 
     def __init__(self, init_list = None, **kwargs):
@@ -388,13 +389,22 @@ class _ListResource(_Resource):
                         offset=i,
                         **self._args
                     )
-                end_result = response.offset + response.number_of_page_results
-                if len(self._results) < end_result:
-                    self._results.extend(
-                        [None] * (end_result - len(self._results)))
-                for j in range(response.offset, 
-                               response.offset+len(response.results)):
-                        self._results[j] = response.results[j-response.offset]
+                if isinstance(self, Search):
+                    end_result = response.offset + response.number_of_page_results
+                    if len(self._results) < end_result:
+                        self._results.extend(
+                            [None] * (end_result - len(self._results)))
+                    for j in range(response.offset, 
+                                   response.offset+len(response.results)):
+                            self._results[j] = response.results[j-response.offset]
+                else:
+                    for j in range(
+                            len(self._results),
+                            i+response.number_of_page_results
+                        ):
+                        self._results.append(None)
+                    for j in range(i, i+response.number_of_page_results):
+                        self._results[j] = response.results[j-i]         
         if type(self._results[index]) == list:
             if type(index) != slice and len(self._results[index]) == 0:
                 self._results[index] = None
