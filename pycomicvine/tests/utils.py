@@ -32,8 +32,8 @@ def test_3times_then_fail(func, *args, **kwargs):
         except UnicodeEncodeError, e:
             log.warning("Fail because of unicode encoding error: %s",
                         e)
-                if i == TRIES-1:
-                    raise TimeoutError('To many Unicode encoding errors')
+            if i == TRIES-1:
+                raise TimeoutError('To many Unicode encoding errors')
 
 class ListResourceTestCase(unittest.TestCase):
     def get_id_and_name_test(self, cls, test_against):
