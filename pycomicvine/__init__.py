@@ -370,7 +370,7 @@ class _ListResource(_Resource):
         return self._total
 
     def __getitem__(self, index):
-        if type(index) == slice:
+        if isinstance(index, slice):
             start = index.start or 0
             stop = index.stop or self._total
             step = index.step or 1
@@ -408,17 +408,17 @@ class _ListResource(_Resource):
                         self._results.append(None)
                     for j in range(i, i+response.number_of_page_results):
                         self._results[j] = response.results[j-i]         
-        if type(self._results[index]) == list:
-            if type(index) != slice and len(self._results[index]) == 0:
+        if isinstance(self._results[index], list):
+            if not isinstance(index, slice) and len(self._results[index]) == 0:
                 self._results[index] = None
                 return None
             for i in range(start, stop, step):
-                if type(self._results[i]) == dict:
+                if isinstance(self._results[i], dict):
                     self._parse_result(i)
-                elif type(self._results[i]) == list and \
+                elif isinstance(self._results[i], list) and \
                         len(self._results[i]) == 0:
                     self._results[i] = None
-        elif type(self._results[index]) == dict:
+        elif isinstance(self._results[index], dict):
             self._parse_result(index)
         return self._results[index]
 
@@ -450,7 +450,7 @@ class _ListResource(_Resource):
     def _parse_result(self, index):
         if type(self) != Types:
             type_dict = Types()
-            if type(self) == Search:
+            if isinstance(self, Search):
                 self._results[index] = type_dict[
                         self._results[index]['resource_type']
                     ]['singular_resource_class'](
