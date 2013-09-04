@@ -237,7 +237,7 @@ class _SingularResource(_Resource):
             except KeyError:
                 raise pycomicvine.error.InvalidResourceError(
                         "Resource type '{0!s}' does not exist.".format(
-                                resource_type
+                                type(self)
                             )
                     )
             self._detail_url = type(self)._resource_url + \
