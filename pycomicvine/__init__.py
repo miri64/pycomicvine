@@ -318,7 +318,13 @@ class _SingularResource(_Resource):
         return name
 
     def __str__(self):
-        return str(unicode(self))
+        if 'name' in self._fields:
+            return str(self.name.encode(
+                    'ascii',
+                    'backslashreplace'
+                )) + " ["+str(self.id)+"]"
+        else:
+            return "["+str(self.id)+"]"
 
     def __unicode__(self):
         if 'name' in self._fields:
