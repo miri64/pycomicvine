@@ -677,8 +677,9 @@ class Movie(_SingularResource):
     runtime = AttributeDefinition(
             lambda value:   int(str(value).split(':'))[0] * 60 + \
                             int(str(value).split(':')[1]) \
-                                if str(value).contains(':') \
-                                else int(value)
+                                if ':' in str(value) \
+                                else int(value),
+            basestring
         )
     site_detail_url = AttributeDefinition('keep')
     studios = AttributeDefinition('keep')
