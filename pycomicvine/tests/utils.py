@@ -114,7 +114,7 @@ class SingularResourceTestCase(unittest.TestCase):
                     )
                 self.assertNotEqual(len(search),0)
                 for c in test_3times_then_fail(list,search):
-                    self.assertIsInstance(c, test_against)
+                    self.assertIsInstance(c, (test_against, type(None)))
                 self.assertIn(
                         self.id,
                         [c.id for c in test_3times_then_fail(list,search)]
