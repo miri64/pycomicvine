@@ -674,7 +674,12 @@ class Movie(_SingularResource):
     producers = AttributeDefinition('People')
     rating = AttributeDefinition('keep')
     release_date = AttributeDefinition(datetime.datetime)
-    runtime = AttributeDefinition(int)
+    runtime = AttributeDefinition(
+            lambda value:   int(str(value).split(':'))[0] * 60 + \
+                            int(str(value).split(':')[1]) \
+                                if str(value).contains(':') \
+                                else int(value)
+        )
     site_detail_url = AttributeDefinition('keep')
     studios = AttributeDefinition('keep')
     teams = AttributeDefinition('Teams')
