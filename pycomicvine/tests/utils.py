@@ -117,7 +117,8 @@ class SingularResourceTestCase(unittest.TestCase):
                     self.assertIsInstance(c, (test_against, type(None)))
                 self.assertIn(
                         self.id,
-                        [c.id for c in test_3times_then_fail(list,search)]
+                        [c.id if c != None else None for c in \
+                                test_3times_then_fail(list,search)]
                     )
             else:
                 logging.getLogger("tests").debug(
