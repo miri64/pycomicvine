@@ -613,7 +613,7 @@ class Issue(_SingularResource):
     aliases = AttributeDefinition('keep')
     api_detail_url = AttributeDefinition('keep')
     character_credits = AttributeDefinition('Characters')
-    character_died_in = AttributeDefinition('Characters')
+    characters_died_in = AttributeDefinition('Characters')
     concept_credits = AttributeDefinition('Concepts')
     cover_date = AttributeDefinition(datetime.datetime)
     date_added = AttributeDefinition(datetime.datetime)
@@ -638,7 +638,7 @@ class Issue(_SingularResource):
     store_date = AttributeDefinition(datetime.datetime)
     story_arc_credits = AttributeDefinition('StoryArcs')
     team_credits = AttributeDefinition('Teams')
-    team_disbanded_in = AttributeDefinition('Teams')
+    teams_disbanded_in = AttributeDefinition('Teams')
     volume = AttributeDefinition('Volume')
 
     def __unicode__(self):
@@ -661,12 +661,10 @@ class Issue(_SingularResource):
         return string + u"["+unicode(self.id)+u"]"
 
     def _fix_api_error(self, name):
-        if name == 'characters_died_in':
-            return 'character_died_in'
         if name == 'disbanded_teams':
-            return 'team_disbanded_in'
-        if name == 'teams_disbanded_in':
-            return 'team_disbanded_in'
+            return 'teams_disbanded_in'
+        if name == 'team_disbanded_in':
+            return 'teams_disbanded_in'
         return super(Issue, self)._fix_api_error(name)
 
 class Issues(_SortableListResource):
@@ -1041,6 +1039,7 @@ class Volume(_SingularResource):
     first_issue = AttributeDefinition('Issue')
     id = AttributeDefinition('keep')
     image = AttributeDefinition('keep')
+    issues = AttributeDefinition('Issues')
     last_issue = AttributeDefinition('Issue')
     locations = AttributeDefinition('Locations')
     name = AttributeDefinition('keep')
