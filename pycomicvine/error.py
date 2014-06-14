@@ -19,7 +19,7 @@ class FilterError(Exception):
 class SubscriberOnlyError(Exception):
     pass
 
-class SlowDownError(Exception):
+class RateLimitExceededError(Exception):
     pass
 
 class UnknownStatusError(Exception):
@@ -38,5 +38,5 @@ EXCEPTION_MAPPING = {
         103: JSONError,
         104: FilterError,
         105: SubscriberOnlyError,
-        107: SlowDownError,
+        107: RateLimitExceededError,
     }
