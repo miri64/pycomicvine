@@ -963,8 +963,8 @@ class Types(_ListResource):
                 type['singular_resource_class'] = getattr(
                         sys.modules[__name__],
                         Types._camilify_type_name(
-                                type['detail_resource_name']
-                            )
+                                type['detail_resource_name']),
+                        UnknownResource
                     )
                 self._mapping[type['detail_resource_name']] = type
                 self._mapping[type['list_resource_name']] = type
@@ -996,6 +996,9 @@ class Types(_ListResource):
             else:
                 camel_string += c
         return camel_string
+
+class UnknownResource(_Resource):
+    pass
 
 class Video(_SingularResource):
     api_detail_url = AttributeDefinition('keep')
