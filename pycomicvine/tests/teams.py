@@ -27,7 +27,7 @@ class TestTeamAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     team.api_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     team.character_enemies,
@@ -59,11 +59,11 @@ class TestTeamAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     team.deck,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     team.description,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     team.first_appeared_in_issue,
@@ -91,7 +91,7 @@ class TestTeamAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     team.name,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     team.publisher,
@@ -99,7 +99,7 @@ class TestTeamAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     team.site_detail_url,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     team.story_arc_credits,

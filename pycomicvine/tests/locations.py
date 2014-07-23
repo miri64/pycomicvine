@@ -27,7 +27,7 @@ class TestLocationAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     location.api_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     location.count_of_issue_appearances,
@@ -43,11 +43,11 @@ class TestLocationAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     location.deck,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     location.description,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     location.first_appeared_in_issue,
@@ -71,11 +71,11 @@ class TestLocationAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     location.name,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     location.site_detail_url,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     location.start_year,

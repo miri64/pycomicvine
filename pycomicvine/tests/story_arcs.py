@@ -27,7 +27,7 @@ class TestStoryArcAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     story_arc.api_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     story_arc.count_of_issue_appearances,
@@ -43,7 +43,7 @@ class TestStoryArcAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     story_arc.deck,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     story_arc.first_appeared_in_issue,
@@ -67,7 +67,7 @@ class TestStoryArcAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     story_arc.name,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     story_arc.publisher,
@@ -75,5 +75,5 @@ class TestStoryArcAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     story_arc.site_detail_url,
-                    (type(None),basestring)
+                    (type(None),str)
                 )

@@ -23,7 +23,7 @@ class TestMovieAttributes(SingularResourceTestCase):
         if movie != None:
             self.assertIsInstance(
                     movie.api_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     movie.box_office_revenue, 
@@ -51,15 +51,15 @@ class TestMovieAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     movie.deck,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     movie.description,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     movie.distributor,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     movie.has_staff_review,
@@ -79,7 +79,7 @@ class TestMovieAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     movie.name,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     movie.producers,
@@ -87,7 +87,7 @@ class TestMovieAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     movie.rating,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     movie.release_date,
@@ -99,7 +99,7 @@ class TestMovieAttributes(SingularResourceTestCase):
                )
             self.assertIsInstance(
                     movie.site_detail_url,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     movie.studios,

@@ -26,7 +26,7 @@ class TestIssueAttributes(SingularResourceTestCase):
                         )
                     self.name = issue.volume.name+" "+\
                             str(issue.issue_number)
-            except TimeoutError,e:
+            except TimeoutError as e:
                 logging.getLogger("tests").debug(e)
 
 
@@ -42,7 +42,7 @@ class TestIssueAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     issue.api_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     issue.character_credits,
@@ -62,11 +62,11 @@ class TestIssueAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     issue.deck,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     issue.description,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     issue.disbanded_teams,
@@ -118,7 +118,7 @@ class TestIssueAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     issue.name,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     issue.object_credits,
@@ -130,7 +130,7 @@ class TestIssueAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     issue.site_detail_url,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     issue.store_date,
