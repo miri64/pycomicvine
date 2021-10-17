@@ -27,7 +27,7 @@ class TestObjectAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     object.api_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     object.count_of_issue_appearances,
@@ -43,11 +43,11 @@ class TestObjectAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     object.deck,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     object.description,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     object.first_appeared_in_issue,
@@ -71,11 +71,11 @@ class TestObjectAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     object.name,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     object.site_detail_url,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     object.start_year,

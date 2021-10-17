@@ -23,19 +23,19 @@ class TestChatAttributes(SingularResourceTestCase):
         if video != None:
             self.assertIsInstance(
                     video.api_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     video.deck, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     video.hd_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     video.high_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     video.image, 
@@ -47,11 +47,11 @@ class TestChatAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     video.low_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     video.name, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     video.publish_date, 
@@ -59,13 +59,13 @@ class TestChatAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     video.site_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     video.url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     video.user, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )

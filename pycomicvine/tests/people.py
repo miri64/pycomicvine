@@ -27,7 +27,7 @@ class TestPersonAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     person.api_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     person.birth, 
@@ -39,7 +39,7 @@ class TestPersonAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     person.country,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     person.created_characters,
@@ -59,27 +59,27 @@ class TestPersonAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     person.deck,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     person.description,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     person.email,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     person.gender,
-                    unicode
+                    str
                 )
             self.assertIn(
                     person.gender,
-                    [u'\u2842', u'\u2640', u'\u26a7']
+                    ['\u2842', '\u2640', '\u26a7']
                 )
             self.assertIsInstance(
                     person.hometown,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     person.id,
@@ -95,11 +95,11 @@ class TestPersonAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     person.name,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     person.site_detail_url,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     person.story_arc_credits,
@@ -111,5 +111,5 @@ class TestPersonAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     person.website,
-                    (type(None),basestring)
+                    (type(None),str)
                 )

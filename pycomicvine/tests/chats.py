@@ -20,15 +20,15 @@ class TestChatAttributes(SingularResourceTestCase):
         if chat != None:
             self.assertIsInstance(
                     chat.api_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     chat.channel_name, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     chat.deck, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     chat.image, 
@@ -36,13 +36,13 @@ class TestChatAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     chat.password, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     chat.site_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     chat.title, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
