@@ -21,7 +21,7 @@ class TestPromosList(ListResourceTestCase):
             # there is one odd empty list in the results of
             # /promos. Just checking if it will stay there
             self.assertLessEqual(assertionFails, 1)
-        except TimeoutError,e:
+        except TimeoutError as e:
             logging.getLogger("tests").debug(e)
 
 class TestPromoAttributes(SingularResourceTestCase):
@@ -39,7 +39,7 @@ class TestPromoAttributes(SingularResourceTestCase):
         if promo != None:
             self.assertIsInstance(
                     promo.api_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     promo.date_added, 
@@ -47,7 +47,7 @@ class TestPromoAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     promo.deck, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     promo.id, 
@@ -59,9 +59,9 @@ class TestPromoAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     promo.link, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     promo.name, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )

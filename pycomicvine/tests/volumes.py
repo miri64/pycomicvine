@@ -27,7 +27,7 @@ class TestVolumeAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     volume.api_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     volume.character_credits,
@@ -51,11 +51,11 @@ class TestVolumeAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     volume.deck,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     volume.description,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     volume.first_issue,
@@ -79,7 +79,7 @@ class TestVolumeAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     volume.name,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     volume.object_credits,
@@ -95,7 +95,7 @@ class TestVolumeAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     volume.site_detail_url,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     volume.start_year,

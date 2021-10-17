@@ -27,7 +27,7 @@ class TestConceptAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     concept.api_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     concept.count_of_issue_appearances,
@@ -43,11 +43,11 @@ class TestConceptAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     concept.deck,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     concept.description,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     concept.first_appeared_in_issue,
@@ -71,11 +71,11 @@ class TestConceptAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     concept.name,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     concept.site_detail_url,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     concept.start_year,

@@ -27,7 +27,7 @@ class TestCharacterAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     character.api_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     character.birth, 
@@ -59,11 +59,11 @@ class TestCharacterAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     character.deck,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     character.description,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     character.first_appeared_in_issue,
@@ -71,11 +71,11 @@ class TestCharacterAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     character.gender,
-                    unicode
+                    str
                 )
             self.assertIn(
                     character.gender,
-                    [u'\u2842', u'\u2640', u'\u26a7']
+                    ['\u2842', '\u2640', '\u26a7']
                 )
             self.assertIsInstance(
                     character.id,
@@ -99,7 +99,7 @@ class TestCharacterAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     character.name,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     character.origin,
@@ -115,11 +115,11 @@ class TestCharacterAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     character.real_name,
-                    (type(None),basestring)
+                    (type(None),str)
                )
             self.assertIsInstance(
                     character.site_detail_url,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     character.story_arc_credits,

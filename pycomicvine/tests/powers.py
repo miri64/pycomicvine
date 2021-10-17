@@ -24,7 +24,7 @@ class TestPowerAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     power.api_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     power.characters,
@@ -40,7 +40,7 @@ class TestPowerAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     power.description,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     power.id,
@@ -48,9 +48,9 @@ class TestPowerAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     power.name,
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     power.site_detail_url,
-                    (type(None),basestring)
+                    (type(None),str)
                 )

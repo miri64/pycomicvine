@@ -2,7 +2,7 @@ import logging
 import random
 import ssl
 import unittest
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 TRIES=3
 TIMEOUT=60
@@ -15,21 +15,21 @@ def test_3times_then_fail(func, *args, **kwargs):
     for i in range(TRIES):
         try:
             return func(*args, **kwargs)
-        except urllib2.HTTPError, e:
+        except urllib.error.HTTPError as e:
             if e.code == 500:
                 log.debug("Internal server error (func=%s%s, kwargs=%s, try=%d)" %
                         (repr(func), str(args), str(kwargs), i)
                     )
                 if i == TRIES-1:
                     raise TimeoutError('To many HTTP-Errors')
-        except ssl.SSLError, e:
+        except ssl.SSLError as e:
             if e.msg == "The read operation timed out":
                 log.debug("Timeout error (func=%s%s, kwargs=%s, try=%d)" %
                         (repr(func), str(args), str(kwargs), i)
                     )
                 if i == TRIES-1:
                     raise TimeoutError('To many HTTP-Timeouts')
-        except UnicodeEncodeError, e:
+        except UnicodeEncodeError as e:
             log.warning("Fail because of unicode encoding error: %s",
                         e)
             if i == TRIES-1:
@@ -75,7 +75,7 @@ class ListResourceTestCase(unittest.TestCase):
                         "%s.test_get_id_and_name: no instances => no test",
                         type(self).__name__
                     )
-        except TimeoutError,e:
+        except TimeoutError as e:
             logging.getLogger("tests").debug(e)
 
 class SingularResourceTestCase(unittest.TestCase):
@@ -94,7 +94,7 @@ class SingularResourceTestCase(unittest.TestCase):
                     )
                 self.id, self.name = rand_instance.id, \
                         rand_instance.name
-        except TimeoutError,e:
+        except TimeoutError as e:
             logging.getLogger("tests").debug(e)
 
     def search_test(self, cls, test_against):
@@ -125,7 +125,7 @@ class SingularResourceTestCase(unittest.TestCase):
                         "%s.test_search: id = None => no test",
                         type(self).__name__
                     )
-        except TimeoutError,e:
+        except TimeoutError as e:
             logging.getLogger("tests").debug(e)
 
     def get_sample(self,cls):
@@ -148,5 +148,5 @@ class SingularResourceTestCase(unittest.TestCase):
                         "%s.test_get_all_attributes: id = None => no test",
                         type(self).__name__
                     )
-        except TimeoutError,e:
+        except TimeoutError as e:
             logging.getLogger("tests").debug(e)

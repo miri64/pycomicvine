@@ -20,11 +20,11 @@ class TestVideoTypeAttributes(SingularResourceTestCase):
         if video_type != None:
             self.assertIsInstance(
                     video_type.api_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     video_type.deck, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     video_type.id, 
@@ -32,9 +32,9 @@ class TestVideoTypeAttributes(SingularResourceTestCase):
                 )
             self.assertIsInstance(
                     video_type.name, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
             self.assertIsInstance(
                     video_type.site_detail_url, 
-                    (type(None),basestring)
+                    (type(None),str)
                 )
