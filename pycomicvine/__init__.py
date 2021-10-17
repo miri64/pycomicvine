@@ -1054,6 +1054,7 @@ class Volume(_SingularResource):
     first_issue = AttributeDefinition('Issue')
     id = AttributeDefinition('keep')
     image = AttributeDefinition('keep')
+    issues = AttributeDefinition('Issues')
     last_issue = AttributeDefinition('Issue')
     locations = AttributeDefinition('Locations')
     name = AttributeDefinition('keep')
